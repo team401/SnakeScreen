@@ -1,6 +1,8 @@
-# Copper Console
+# Copper Console (Python)
 
 A program to interpret data from Network Tables and display it in a nice view.
+
+This is the python branch of the project. There is also a Node implementation on a separate branch.
 
 ## Installation
 
