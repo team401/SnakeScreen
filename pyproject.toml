@@ -11,6 +11,9 @@ python = "3.12"
 robotpy = "^2024.1.1.2"
 pygame-ce = "2.4.0"
 
+[tool.poetry.scripts]
+copperconsole = "copper_console.copper_console:main"
+
 
 [build-system]
 requires = ["poetry-core"]
