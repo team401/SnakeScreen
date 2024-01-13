@@ -1,6 +1,5 @@
-# Copper Console
+# Copper Console (Node implementation)
 
 A program to interpret data from Network Tables and display it in a nice view.
 
-NOTE: This project is currently being prototyped in both Python and Javascript.
-See one of those branches for the most up-to-date code.
+This is the NodeJS branch of the project. There is also a python implementation in a separate branch.
