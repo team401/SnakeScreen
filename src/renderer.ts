@@ -29,6 +29,7 @@ function reconnectClient() {
 const robotPos = {
   x: -1,
   y: -1,
+  rotation: 0,
 };
 
 // Element to display robot position
@@ -63,17 +64,21 @@ function render() {
 
   ctx.fillStyle = "red";
   const [screenX, screenY] = fieldToScreenCoords(robotPos.x, robotPos.y);
-
+  ctx.translate(screenX, screenY);
+  ctx.rotate(robotPos.rotation);
   // 30 inches to meters = 0.762
   const screenSize = fieldToScreenDistance(0.762);
   ctx.fillRect(
     // Offset by 1/2 of robot width for centered position
-    screenX - screenSize / 2,
+    screenX + screenSize / 2,
     // Offset by 1/2 of robot width for centered position
-    screenY - screenSize / 2,
+    screenY + screenSize / 2,
     screenSize,
     screenSize
   );
+  
+// Reset transformation matrix to the identity matrix
+ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 window.api.receive("x", (arg) => {
@@ -83,6 +88,11 @@ window.api.receive("x", (arg) => {
 
 window.api.receive("y", (arg) => {
   robotPos.y = arg;
+  render();
+});
+
+window.api.receive("rotation", (arg) => {
+  robotPos.rotation = arg;
   render();
 });
 

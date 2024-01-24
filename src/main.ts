@@ -62,21 +62,47 @@ export function startClient(hostname) {
   }, hostname);
 }
 
+type Pose2D = {
+  x: number,
+  y: number,
+  rotation: number,
+}
+
+function parsePose2DBuffer(buf: Buffer): Pose2D {
+  const x = buf.readDoubleLE(0);
+  const y = buf.readDoubleLE(8);
+  const rotation = buf.readDoubleLE(16);
+  return {
+    x, y, rotation
+  }
+}
+
 // Passing data between main thread and render thread
 
 // SEE preload.js TO VIEW/UPDATE LIST OF ALLOWED WEBCONTENTS CHANNELS
 
 // Add listener for network tables which then sends the data to the renderer
-client.addListener((key, val, type, id) => {
-  console.log("Network tables data recieved:");
-  console.log({ key, val, type, id });
+// client.addListener((key, val, type, id) => {
+client.addListener((key, val, valueType, type, id, flags) => {
   switch (key) {
-    case "/SmartDashboard/x":
-      win.webContents.send("x", val);
-      break;
-    case "/SmartDashboard/y":
-      win.webContents.send("y", val);
-      break;
+    case "/AdvantageKit/RealOutputs/pose/Pose2d":
+      console.log("Network tables data recieved:");
+      console.log({ key, val, type, id });
+      const pose = parsePose2DBuffer(val);
+      // const x = val.readDoubleLE(0);
+      // const y = val.readDoubleLE(8);
+      // const rotation = val.readDoubleLE(16);
+      console.log(pose);
+      win.webContents.send("x", pose.x);
+      win.webContents.send("y", pose.y);
+      win.webContents.send("rotation", pose.rotation);
+      //case
+    // "/SmartDashboard/x":
+      // win.webContents.send("x", val);
+    //  break;
+    //case "/SmartDashboard/y":
+      // win.webContents.send("y", val);
+      // break;
     default:
       return;
   }

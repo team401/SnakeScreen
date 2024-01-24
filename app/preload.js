@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 contextBridge.exposeInMainWorld("api", {
     receive: (channel, func) => {
-        let validChannels = ["x", "y", "clientStarted"];
+        let validChannels = ["x", "y", "rotation", "clientStarted"];
         if (validChannels.includes(channel)) {
             ipcRenderer.on(channel, (event, ...args) => func(...args));
         }
