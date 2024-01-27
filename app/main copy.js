@@ -3,12 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.startClient = void 0;
 // const { app, BrowserWindow } = require("electron/main");
 const electron_1 = require("electron");
-// import { WPILibWebSocketClient, WPILibWSMessages } from "node-wpilib-ws";
-// import { NT4Client, NT4Topic } from "./NT4";
-// import NT4Source from "./nt4/NT4Source";
-// import { NT4Client, NT4Topic } from "./nt4/NT4";
-// import { NT4Publisher } from "./nt4/NT4Publisher";
-// import { SIM_ADDRESS } from "./IPAddresses";
 const path = require("node:path");
 let win = null;
 function createWindow() {
@@ -20,15 +14,7 @@ function createWindow() {
         },
     });
     win.loadFile("app/index.html");
-    // startClient(false);
-    // let client = new NT4Client("127.0.0.1", "CopperConsole",
-    // (topic: NT4Topic) => console.log("announce", topic),
-    // (topic: NT4Topic) => console.log("unannounce", topic),
-    // (topic: NT4Topic, timestamp_us: number, value: any) => console.log("New data", value),
-    // () => console.log("[NT4] Connected"),
-    // () => console.log("[NT4] Disconnected"),
-    // )
-    // client.connect()
+    startClient(HOSTNAME);
     win.on("closed", () => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
@@ -53,47 +39,21 @@ electron_1.app.on("window-all-closed", () => {
 });
 // Network tables
 // const ntClient = require("wpilib-nt-client");
-// let ntClient: NT4Client | null = null;
-// let publisher: NT4Publisher | null = null;
-// let liveActive = false;
-// let liveConnected = false;
+let ntClient = null;
+let publisher = null;
+let liveActive = false;
+let liveConnected = false;
+const client = new ntClient.Client();
+client.setReconnectDelay(1000);
 const HOSTNAME = "127.0.0.1";
-const rioAddress = "192.168.4.1.2";
-let subId = null;
-function startClient(isSim) {
-    // ntClient?.disconnect();
-    // publisher?.stop();
-    // liveActive = true;
-    // Assume nt4 live mode for now
-    let address = "";
-    if (isSim) {
-        // address = SIM_ADDRESS;
+function startClient(hostname) {
+    if (client.isConnected()) {
+        client.stop();
     }
-    else {
-        address = rioAddress;
-    }
-    // ntClient = new NT4Client(
-    //   address,
-    //   "CopperConsole",
-    //   (topic: NT4Topic) => {
-    //     // Announce
-    //     if (topic.name === "") return;
-    //     console.log(topic);
-    //   },
-    //   (topic: NT4Topic) => {
-    //     // Unannounce
-    //   },
-    //   (topic: NT4Topic, timestamp_us: number, value: unknown) => {
-    //     // Data
-    //     if (!ntClient || topic.name === "") return;
-    //     let timestamp = Math.max(timestamp_us);
-    //     console.log(timestamp, value);
-    //   },
-    //   () => {},
-    //   () => {}
-    // );
-    // ntClient.connect();
-    // subId = ntClient.subscribe(["x", "y"], false);
+    client.start((isConnected, err, is2_0) => {
+        console.log("startClient callback:", { isConnected, err });
+        win.webContents.send("clientStarted", { isConnected, err });
+    }, hostname);
 }
 exports.startClient = startClient;
 function parsePose2DBuffer(buf) {
@@ -110,6 +70,32 @@ function parsePose2DBuffer(buf) {
 // SEE preload.js TO VIEW/UPDATE LIST OF ALLOWED WEBCONTENTS CHANNELS
 // Add listener for network tables which then sends the data to the renderer
 // client.addListener((key, val, type, id) => {
+client.addListener((key, val, valueType, type, id, flags) => {
+    console.log("Network tables data recieved:");
+    console.log({ key, val, type, id });
+    switch (key) {
+        case "/CopperConsole/robotPose":
+            console.log("Pose data recieved:");
+            console.log({ key, val, type, id });
+            // const x = val.readDoubleLE(0);
+            // const y = val.readDoubleLE(8);
+            // const rotation = val.readDoubleLE(16);
+            // const pose = parsePose2DBuffer(val);
+            // console.log(pose);
+            win.webContents.send("x", val[0]);
+            win.webContents.send("y", val[1]);
+            win.webContents.send("rotation", val[2]);
+        //case
+        // "/SmartDashboard/x":
+        // win.webContents.send("x", val);
+        //  break;
+        //case "/SmartDashboard/y":
+        // win.webContents.send("y", val);
+        // break;
+        default:
+            return;
+    }
+});
 // Allow renderer to send "startClient" message to restart the NT client.
 electron_1.ipcMain.handle("startClient", (event, hostname) => {
     try {
@@ -125,4 +111,4 @@ electron_1.ipcMain.handle("startClient", (event, hostname) => {
         }
     }
 });
-//# sourceMappingURL=main.js.map
+//# sourceMappingURL=main%20copy.js.map

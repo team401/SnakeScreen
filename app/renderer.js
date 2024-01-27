@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const NT4_1 = require("./NT4");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 // Field rendering
@@ -121,4 +124,6 @@ stateSubscription.subscribe((newValue) => {
 stateSubscription.subscribe((newValue) => {
     console.log("State updated", newValue);
 });
+let client = new NT4_1.NT4Client("127.0.0.1", "CopperConsole", (topic) => console.log("announce", topic), (topic) => console.log("unannounce", topic), (topic, timestamp_us, value) => console.log("New data", value), () => console.log("[NT4] Connected"), () => console.log("[NT4] Disconnected"));
+client.connect();
 //# sourceMappingURL=renderer.js.map

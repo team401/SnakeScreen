@@ -1,3 +1,5 @@
+import { NT4Client, NT4Topic } from "./NT4";
+
 const canvas: HTMLCanvasElement = document.querySelector(
   "canvas"
 ) as HTMLCanvasElement;
@@ -173,3 +175,13 @@ stateSubscription.subscribe((newValue: State) => {
 stateSubscription.subscribe((newValue: State) => {
   console.log("State updated", newValue);
 });
+
+let client = new NT4Client("127.0.0.1", "CopperConsole",
+  (topic: NT4Topic) => console.log("announce", topic),
+  (topic: NT4Topic) => console.log("unannounce", topic),
+  (topic: NT4Topic, timestamp_us: number, value: any) => console.log("New data", value),
+  () => console.log("[NT4] Connected"),
+  () => console.log("[NT4] Disconnected"),
+)
+
+client.connect()
