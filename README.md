@@ -56,3 +56,7 @@ There is also a simple program to send dummy network tables data located in
 ## Credits
 
 Field image taken from user [MikLast on chiefdelphi.com](https://www.chiefdelphi.com/t/2024-crescendo-top-down-field-renders/447764)
+
+Network tables code is taken from the [AdvantageScope project](https://github.com/Mechanical-Advantage/AdvantageScope) on GitHub, which is graciously provided
+under the MIT license. It can be found in this repository under `src/nt4/`,
+along with its [license](https://github.com/team401/Copper-Console/blob/main/src/nt4/LICENSE).

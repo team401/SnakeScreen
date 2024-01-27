@@ -70,15 +70,15 @@ function render() {
   const screenSize = fieldToScreenDistance(0.762);
   ctx.fillRect(
     // Offset by 1/2 of robot width for centered position
-    screenX + screenSize / 2,
+    -(screenSize / 2),
     // Offset by 1/2 of robot width for centered position
-    screenY + screenSize / 2,
+    -(screenSize / 2),
     screenSize,
     screenSize
   );
-  
-// Reset transformation matrix to the identity matrix
-ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  // Reset transformation matrix to the identity matrix
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 window.api.receive("x", (arg) => {

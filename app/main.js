@@ -57,7 +57,9 @@ function parsePose2DBuffer(buf) {
     const y = buf.readDoubleLE(8);
     const rotation = buf.readDoubleLE(16);
     return {
-        x, y, rotation
+        x,
+        y,
+        rotation,
     };
 }
 // Passing data between main thread and render thread
@@ -65,18 +67,20 @@ function parsePose2DBuffer(buf) {
 // Add listener for network tables which then sends the data to the renderer
 // client.addListener((key, val, type, id) => {
 client.addListener((key, val, valueType, type, id, flags) => {
+    console.log("Network tables data recieved:");
+    console.log({ key, val, type, id });
     switch (key) {
-        case "/AdvantageKit/RealOutputs/pose/Pose2d":
-            console.log("Network tables data recieved:");
+        case "/CopperConsole/robotPose":
+            console.log("Pose data recieved:");
             console.log({ key, val, type, id });
-            const pose = parsePose2DBuffer(val);
             // const x = val.readDoubleLE(0);
             // const y = val.readDoubleLE(8);
             // const rotation = val.readDoubleLE(16);
-            console.log(pose);
-            win.webContents.send("x", pose.x);
-            win.webContents.send("y", pose.y);
-            win.webContents.send("rotation", pose.rotation);
+            // const pose = parsePose2DBuffer(val);
+            // console.log(pose);
+            win.webContents.send("x", val[0]);
+            win.webContents.send("y", val[1]);
+            win.webContents.send("rotation", val[2]);
         //case
         // "/SmartDashboard/x":
         // win.webContents.send("x", val);

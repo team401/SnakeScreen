@@ -9,22 +9,9 @@
       "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "681",
-      "xpos": "684",
-      "ypos": "31"
-    }
-  },
-  "Table": {
-    "0x965B9C9E,2": {
-      "Column 0  Width": "130",
-      "Column 1  Weight": "1.0000",
-      "RefScale": "13"
-    },
-    "0xE56EC1C2,4": {
-      "Column 0  Weight": "1.0000",
-      "Column 1  Weight": "1.0000",
-      "Column 2  Weight": "1.0000",
-      "Column 3  Weight": "1.0000"
+      "width": "1280",
+      "xpos": "239",
+      "ypos": "348"
     }
   },
   "Window": {
@@ -36,7 +23,7 @@
     "###Joysticks": {
       "Collapsed": "0",
       "Pos": "250,465",
-      "Size": "675,73"
+      "Size": "796,73"
     },
     "###NetworkTables": {
       "Collapsed": "0",
@@ -51,7 +38,7 @@
     "###Other Devices": {
       "Collapsed": "0",
       "Pos": "662,20",
-      "Size": "250,695"
+      "Size": "250,602"
     },
     "###System Joysticks": {
       "Collapsed": "0",

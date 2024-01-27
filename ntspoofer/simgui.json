@@ -5,22 +5,22 @@
     }
   },
   "NetworkTables": {
-    "Retained Values": {
-      "open": false
-    },
     "transitory": {
-      "SmartDashboard": {
+      "CopperConsole": {
+        "double[]##v_/CopperConsole/robotPose": {
+          "open": true
+        },
         "open": true
+      },
+      "SmartDashboard": {
+        "open": false
       }
     }
   },
   "NetworkTables Info": {
-    "Clients": {
-      "open": true
-    },
     "Server": {
       "Publishers": {
-        "open": true
+        "open": false
       }
     },
     "visible": true
