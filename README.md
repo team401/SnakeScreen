@@ -1,4 +1,4 @@
-# Copper Console (Node implementation)
+# Copper Console
 
 A program to interpret data from Network Tables and display it in a nice view.
 

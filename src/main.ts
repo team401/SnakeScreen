@@ -9,10 +9,9 @@ import { app, BrowserWindow, ipcMain } from "electron";
 
 const path = require("node:path");
 
-let win: BrowserWindow = null;
-
-function createWindow() {
-  win = new BrowserWindow({
+const createWindow = () => {
+  // Create the browser window
+  const mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
     webPreferences: {
@@ -20,26 +19,15 @@ function createWindow() {
     },
   });
 
-  win.loadFile("app/index.html");
-
-  // startClient(false);
-  // let client = new NT4Client("127.0.0.1", "CopperConsole",
-    // (topic: NT4Topic) => console.log("announce", topic),
-    // (topic: NT4Topic) => console.log("unannounce", topic),
-    // (topic: NT4Topic, timestamp_us: number, value: any) => console.log("New data", value),
-    // () => console.log("[NT4] Connected"),
-    // () => console.log("[NT4] Disconnected"),
-  // )
-
-  // client.connect()
-
-  win.on("closed", () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
-  });
-}
+  // load index.html of the app
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
+    );
+  }
+};
 
 app.on("ready", createWindow);
 
@@ -59,91 +47,7 @@ app.on("window-all-closed", () => {
   // }
 });
 
-// Network tables
-
-// const ntClient = require("wpilib-nt-client");
-// let ntClient: NT4Client | null = null;
-// let publisher: NT4Publisher | null = null;
-// let liveActive = false;
-// let liveConnected = false;
-
-const HOSTNAME = "127.0.0.1";
-
-const rioAddress = "192.168.4.1.2";
-let subId: number | null = null;
-
-export function startClient(isSim: boolean) {
-  // ntClient?.disconnect();
-  // publisher?.stop();
-  // liveActive = true;
-
-  // Assume nt4 live mode for now
-  let address = "";
-  if (isSim) {
-    // address = SIM_ADDRESS;
-  } else {
-    address = rioAddress;
-  }
-
-  // ntClient = new NT4Client(
-  //   address,
-  //   "CopperConsole",
-  //   (topic: NT4Topic) => {
-  //     // Announce
-  //     if (topic.name === "") return;
-  //     console.log(topic);
-  //   },
-  //   (topic: NT4Topic) => {
-  //     // Unannounce
-  //   },
-  //   (topic: NT4Topic, timestamp_us: number, value: unknown) => {
-  //     // Data
-  //     if (!ntClient || topic.name === "") return;
-
-  //     let timestamp = Math.max(timestamp_us);
-  //     console.log(timestamp, value);
-  //   },
-  //   () => {},
-  //   () => {}
-  // );
-  // ntClient.connect();
-  // subId = ntClient.subscribe(["x", "y"], false);
-}
-
-type Pose2D = {
-  x: number;
-  y: number;
-  rotation: number;
-};
-
-function parsePose2DBuffer(buf: Buffer): Pose2D {
-  const x = buf.readDoubleLE(0);
-  const y = buf.readDoubleLE(8);
-  const rotation = buf.readDoubleLE(16);
-  return {
-    x,
-    y,
-    rotation,
-  };
-}
-
 // Passing data between main thread and render thread
+// We don't do any of this right now, but if we did, it would go here
 
 // SEE preload.js TO VIEW/UPDATE LIST OF ALLOWED WEBCONTENTS CHANNELS
-
-// Add listener for network tables which then sends the data to the renderer
-// client.addListener((key, val, type, id) => {
-
-// Allow renderer to send "startClient" message to restart the NT client.
-ipcMain.handle("startClient", (event, hostname) => {
-  try {
-    startClient(hostname);
-  } catch (e) {
-    // Catch TypeErrors that happen when 'startClient' is called after window destruction
-    if (!(e instanceof TypeError)) {
-      throw e;
-    } else {
-      console.log("startClient based TypeError caught");
-    }
-  }
-});

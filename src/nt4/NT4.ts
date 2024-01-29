@@ -18,10 +18,10 @@ const typestrIdxLookup: { [id: string]: number } = {
   "string[]": 20,
 };
 
-class NT4Subscription {
+class NT4_Subscription {
   uid = -1;
   topics = new Set();
-  options = new NT4SubscriptionOptions();
+  options = new NT4_SubscriptionOptions();
 
   toSubscribeObj() {
     return {
@@ -38,7 +38,7 @@ class NT4Subscription {
   }
 }
 
-class NT4SubscriptionOptions {
+class NT4_SubscriptionOptions {
   periodic = 0.1;
   all = false;
   topicsOnly = false;
@@ -54,7 +54,7 @@ class NT4SubscriptionOptions {
   }
 }
 
-export class NT4Topic {
+export class NT4_Topic {
   uid = -1; // "id" if server topic, "pubuid" if published
   name = "";
   type = "";
@@ -84,7 +84,7 @@ export class NT4Topic {
   }
 }
 
-export class NT4Client {
+export class NT4_Client {
   private PORT = 5810;
   private RTT_PERIOD_MS_V40 = 1000;
   private RTT_PERIOD_MS_V41 = 250;
@@ -92,10 +92,10 @@ export class NT4Client {
   private TIMEOUT_MS_V41 = 1000;
 
   private appName: string;
-  private onTopicAnnounce: (topic: NT4Topic) => void;
-  private onTopicUnannounce: (topic: NT4Topic) => void;
+  private onTopicAnnounce: (topic: NT4_Topic) => void;
+  private onTopicUnannounce: (topic: NT4_Topic) => void;
   private onNewTopicData: (
-    topic: NT4Topic,
+    topic: NT4_Topic,
     timestamp_us: number,
     value: unknown
   ) => void;
@@ -114,9 +114,9 @@ export class NT4Client {
   private serverTimeOffset_us: number | null = null;
   private networkLatency_us: number = 0;
 
-  private subscriptions: Map<number, NT4Subscription> = new Map();
-  private publishedTopics: Map<string, NT4Topic> = new Map();
-  private serverTopics: Map<string, NT4Topic> = new Map();
+  private subscriptions: Map<number, NT4_Subscription> = new Map();
+  private publishedTopics: Map<string, NT4_Topic> = new Map();
+  private serverTopics: Map<string, NT4_Topic> = new Map();
 
   private msgpackDecoder = new Decoder();
   private msgpackEncoder = new Encoder();
@@ -134,10 +134,10 @@ export class NT4Client {
   constructor(
     serverAddr: string,
     appName: string,
-    onTopicAnnounce: (topic: NT4Topic) => void,
-    onTopicUnannounce: (topic: NT4Topic) => void,
+    onTopicAnnounce: (topic: NT4_Topic) => void,
+    onTopicUnannounce: (topic: NT4_Topic) => void,
     onNewTopicData: (
-      topic: NT4Topic,
+      topic: NT4_Topic,
       timestamp_us: number,
       value: unknown
     ) => void,
@@ -180,9 +180,7 @@ export class NT4Client {
     } catch (err) {}
     if (result === null || !result.ok) {
       let requestLength = new Date().getTime() - requestStart;
-      setTimeout(() => {
-        this.connectOnAlive();
-      }, 350 - requestLength);
+      setTimeout(() => this.connectOnAlive(), 350 - requestLength);
     } else {
       this.ws_connect();
     }
@@ -232,7 +230,7 @@ export class NT4Client {
     sendAll: boolean = false,
     periodic: number = 0.1
   ): number {
-    let newSub = new NT4Subscription();
+    let newSub = new NT4_Subscription();
     newSub.uid = this.getNewUID();
     newSub.topics = new Set(topicPatterns);
     newSub.options.prefix = prefixMode;
@@ -253,7 +251,7 @@ export class NT4Client {
    * @returns A subscription ID that can be used to unsubscribe.
    */
   subscribeTopicsOnly(topicPatterns: string[], prefixMode: boolean): number {
-    let newSub = new NT4Subscription();
+    let newSub = new NT4_Subscription();
     newSub.uid = this.getNewUID();
     newSub.topics = new Set(topicPatterns);
     newSub.options.prefix = prefixMode;
@@ -270,7 +268,7 @@ export class NT4Client {
   unsubscribe(subscriptionId: number) {
     let subscription = this.subscriptions.get(subscriptionId);
     if (!subscription) {
-      throw Error('Unknown subscription ID "' + subscriptionId + '"');
+      throw 'Unknown subscription ID "' + subscriptionId + '"';
     }
     this.subscriptions.delete(subscriptionId);
     if (this.serverConnectionActive) {
@@ -292,7 +290,7 @@ export class NT4Client {
    */
   setProperties(topic: string, properties: { [id: string]: any }) {
     // Update local topics
-    let updateTopic = (toUpdate: NT4Topic) => {
+    let updateTopic = (toUpdate: NT4_Topic) => {
       for (const key of Object.keys(properties)) {
         let value = properties[key];
         if (value === null) {
@@ -338,7 +336,7 @@ export class NT4Client {
     if (this.publishedTopics.has(topic)) {
       return;
     }
-    let newTopic = new NT4Topic();
+    let newTopic = new NT4_Topic();
     newTopic.name = topic;
     newTopic.uid = this.getNewUID();
     newTopic.type = type;
@@ -347,13 +345,14 @@ export class NT4Client {
     if (this.serverConnectionActive) {
       this.ws_publish(newTopic);
     }
+    return;
   }
 
   /** Unpublish a previously-published topic from this client. */
   unpublishTopic(topic: string) {
     let topicObj = this.publishedTopics.get(topic);
     if (!topicObj) {
-      throw Error('Topic "' + topic + '" not found');
+      throw 'Topic "' + topic + '" not found';
     }
     this.publishedTopics.delete(topic);
     if (this.serverConnectionActive) {
@@ -372,7 +371,7 @@ export class NT4Client {
   addTimestampedSample(topic: string, timestamp: number, value: any) {
     let topicObj = this.publishedTopics.get(topic);
     if (!topicObj) {
-      throw Error('Topic "' + topic + '" not found');
+      throw 'Topic "' + topic + '" not found';
     }
     let txData = this.msgpackEncoder.encode([
       topicObj.uid,
@@ -396,9 +395,10 @@ export class NT4Client {
     if (this.serverTimeOffset_us === null) {
       return null;
     } else {
-      // If you have no idea what this line does like me, look up "nullish coalescing operator"
-      // I am just as confused as you are
-      return (clientTime ?? this.getClientTime_us()) + this.serverTimeOffset_us;
+      return (
+        (clientTime === undefined ? this.getClientTime_us() : clientTime) +
+        this.serverTimeOffset_us
+      );
     }
   }
 
@@ -434,19 +434,19 @@ export class NT4Client {
   //////////////////////////////////////////////////////////////
   // Websocket Message Send Handlers
 
-  private ws_subscribe(subscription: NT4Subscription) {
+  private ws_subscribe(subscription: NT4_Subscription) {
     this.ws_sendJSON("subscribe", subscription.toSubscribeObj());
   }
 
-  private ws_unsubscribe(subscription: NT4Subscription) {
+  private ws_unsubscribe(subscription: NT4_Subscription) {
     this.ws_sendJSON("unsubscribe", subscription.toUnsubscribeObj());
   }
 
-  private ws_publish(topic: NT4Topic) {
+  private ws_publish(topic: NT4_Topic) {
     this.ws_sendJSON("publish", topic.toPublishObj());
   }
 
-  private ws_unpublish(topic: NT4Topic) {
+  private ws_unpublish(topic: NT4_Topic) {
     this.ws_sendJSON("unpublish", topic.toUnpublishObj());
   }
 
@@ -605,7 +605,7 @@ export class NT4Client {
 
         // Message validates reasonably, switch based on supported methods
         if (method === "announce") {
-          let newTopic = new NT4Topic();
+          let newTopic = new NT4_Topic();
           newTopic.uid = params.id;
           newTopic.name = params.name;
           newTopic.type = params.type;
@@ -676,7 +676,7 @@ export class NT4Client {
               "[NT4] Ignoring binary data, not an RTT message but received by RTT only connection"
             );
           }
-          let topic: NT4Topic | null = null;
+          let topic: NT4_Topic | null = null;
           for (let serverTopic of this.serverTopics.values()) {
             if (serverTopic.uid === topicID) {
               topic = serverTopic;
