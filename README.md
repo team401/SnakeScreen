@@ -23,17 +23,20 @@ As seen below:
 ```bash
 git clone https://github.com/team401/Copper-Console
 cd Copper-Console
+npm install
 npm run make
 ```
 
 An executable will be generated in `out/Copper Console-{your platform}/`, and a
-distributable zip acrhive will be created in `out/make/zip/{your platform}/Copper Console-{your platform}.zip`
+distributable zip archive will be created in `out/make/zip/{your platform}/Copper Console-{your platform}.zip`
 
 You can also just run a development build of the project with
 
 ```bash
 npm run start
 ```
+
+You'll need to run `npm install` first if you haven't already before building.
 
 ## Project Structure
 
