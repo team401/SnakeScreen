@@ -37,18 +37,20 @@ npm run start
 
 ## Project Structure
 
+The project reads from network tables that should be provided in the format
+described in `nt-specification.md`.
+
 Typescript source code is located in `src/`.
-This typescript is then compiled into javascript which is placed under `app/`
-when any npm scripts are run with `npx tsc`.
-The app is then launched using electron-forge from the `app` directory.
-Because `app` is auto-generated, no javascript files within `app` should be
-edited manually added to version control. However, `app/field.png` and
-`app/index.html` should be added because they are not auto-generated and are
-used for the rendering process in the electron app.
+The app is built using electron-forge and its Vite plugin. It can be run with
+the npm start script. Static assets, such as`field.png` are placed outside of
+the `src` directory in main directory of the repository.
 
 Data is passed between the main process (`src/main.ts`) and the renderer process
 (`src/renderer.ts`) through electron using `src/preload.ts`. An interface defining the
 API exposed to the renderer is defined in `src/interface.d.ts`.
+
+Variables provided by Vite specifying the location of static assets have types
+defined in `src/types.d.ts`.
 
 There is also a simple program to send dummy network tables data located in
 `ntspoofer/`. See `ntspoofer/README.md` for details on how to use it.
