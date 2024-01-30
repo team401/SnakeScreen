@@ -24,12 +24,12 @@
       <canvas width="960" height="389"></canvas>
     </p>
     <p id="posDisplay">position display not initialized</p>
-    <form onsubmit="reconnectClient(); return false">
-      <input type="text" id="hostname" value="127.0.0.1" />
-      <button id="connectButton">Connect</button>
-    </form>
+    <input type="text" id="hostname" value="127.0.0.1" />
+    <button id="connectButton">Connect</button>
+    <br />
+    <button id="connectLocalhostButton">Connect Localhost</button>
     <p id="warning">Connection status unknown, press connect to re-try</p>
 
-    <script defer src="renderer.js"></script>
+    <script type="module" src="/src/renderer.ts"></script>
   </body>
 </html>

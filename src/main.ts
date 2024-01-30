@@ -1,11 +1,17 @@
 // const { app, BrowserWindow } = require("electron/main");
 import { app, BrowserWindow, ipcMain } from "electron";
+// import { WPILibWebSocketClient, WPILibWSMessages } from "node-wpilib-ws";
+// import { NT4Client, NT4Topic } from "./NT4";
+// import NT4Source from "./nt4/NT4Source";
+// import { NT4Client, NT4Topic } from "./nt4/NT4";
+// import { NT4Publisher } from "./nt4/NT4Publisher";
+// import { SIM_ADDRESS } from "./IPAddresses";
+
 const path = require("node:path");
 
-let win: BrowserWindow = null;
-
-function createWindow() {
-  win = new BrowserWindow({
+const createWindow = () => {
+  // Create the browser window
+  const mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
     webPreferences: {
@@ -13,17 +19,15 @@ function createWindow() {
     },
   });
 
-  win.loadFile("app/index.html");
-
-  startClient(HOSTNAME);
-
-  win.on("closed", () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
-  });
-}
+  // load index.html of the app
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
+    );
+  }
+};
 
 app.on("ready", createWindow);
 
@@ -43,55 +47,7 @@ app.on("window-all-closed", () => {
   // }
 });
 
-// Network tables
-
-const ntClient = require("wpilib-nt-client");
-
-const client = new ntClient.Client();
-client.setReconnectDelay(1000);
-
-const HOSTNAME = "127.0.0.1";
-
-export function startClient(hostname) {
-  if (client.isConnected()) {
-    client.stop();
-  }
-  client.start((isConnected, err, is2_0) => {
-    console.log("startClient callback:", { isConnected, err });
-    win.webContents.send("clientStarted", { isConnected, err });
-  }, hostname);
-}
-
 // Passing data between main thread and render thread
+// We don't do any of this right now, but if we did, it would go here
 
 // SEE preload.js TO VIEW/UPDATE LIST OF ALLOWED WEBCONTENTS CHANNELS
-
-// Add listener for network tables which then sends the data to the renderer
-client.addListener((key, val, type, id) => {
-  console.log("Network tables data recieved:");
-  console.log({ key, val, type, id });
-  switch (key) {
-    case "/SmartDashboard/x":
-      win.webContents.send("x", val);
-      break;
-    case "/SmartDashboard/y":
-      win.webContents.send("y", val);
-      break;
-    default:
-      return;
-  }
-});
-
-// Allow renderer to send "startClient" message to restart the NT client.
-ipcMain.handle("startClient", (event, hostname) => {
-  try {
-    startClient(hostname);
-  } catch (e) {
-    // Catch TypeErrors that happen when 'startClient' is called after window destruction
-    if (!(e instanceof TypeError)) {
-      throw e;
-    } else {
-      console.log("startClient based TypeError caught");
-    }
-  }
-});

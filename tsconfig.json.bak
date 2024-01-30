@@ -6,11 +6,13 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
-    "sourceMap": true,
     "baseUrl": ".",
     "outDir": "dist",
+    "rootDir": "src",
+    "sourceMap": true,
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
   "include": ["src"]
+  // "exclude": ["app", "node_modules"]
 }

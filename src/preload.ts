@@ -1,8 +1,8 @@
 // see https://github.com/electron/electron/issues/9920#issuecomment-575839738
-const { contextBridge, ipcRenderer } = require("electron");
+import { contextBridge, ipcRenderer } from "electron";
 
 window.addEventListener("DOMContentLoaded", () => {
-  const replaceText = (selector, text) => {
+  const replaceText = (selector: string, text: string) => {
     const element = document.getElementById(selector);
     if (element) element.innerText = text;
   };
@@ -13,8 +13,8 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 contextBridge.exposeInMainWorld("api", {
-  receive: (channel: string, func: (...args) => void) => {
-    let validChannels = ["x", "y", "clientStarted"];
+  receive: (channel: string, func: (...args: any[]) => void) => {
+    const validChannels: string[] = [];
     if (validChannels.includes(channel)) {
       ipcRenderer.on(channel, (event, ...args) => func(...args));
     } else {
