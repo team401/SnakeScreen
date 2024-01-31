@@ -1,5 +1,6 @@
 import ntcore
 import wpilib
+import math
 
 
 class EasyNetworkTableExample(wpilib.TimedRobot):
@@ -26,18 +27,35 @@ class EasyNetworkTableExample(wpilib.TimedRobot):
         self.y: float = 0
         self.rotation: float = 0
 
+        self.joystick = wpilib.Joystick(0)
+
         self.updatePoseTable()
 
     def updatePoseTable(self):
         self.robotPoseSub.set([self.x, self.y, self.rotation])
 
-    def teleopPeriodic(self) -> None:
+    def autonomousPeriodic(self) -> None:
         # Publish values that are constantly increasing.
         self.x += 0.1
         self.y += 0.2
         self.rotation += 0.05
         self.x %= 5
         self.y %= 5
+
+        self.updatePoseTable()
+    
+    def teleopPeriodic(self) -> None:
+        # let us move around with a joystick
+        moveX = self.joystick.getX();
+        moveY = self.joystick.getY();
+        # up vector 
+        rotatedX = math.cos(moveX) - math.sin(moveY)
+        rotatedY = math.sin(moveX) + math.cos(moveY)
+        self.x += moveX / 10
+        self.y -= moveY / 10
+
+        rotation = self.joystick.getTwist()
+        self.rotation += rotation / 10
 
         self.updatePoseTable()
 
