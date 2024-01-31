@@ -32,10 +32,9 @@ let robotPose: Pose2D = {
   rotation: -1,
 };
 
-/** Update the pose and trigger a re-render */
+/** Update the pose */
 function setPose(newPose: Pose2D) {
   robotPose = newPose;
-  render();
 }
 
 // Element to display robot position
@@ -85,6 +84,8 @@ function render() {
 
   // Reset transformation matrix to the identity matrix
   ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  requestAnimationFrame(render);
 }
 
 // Publisher-subscriber implementation
@@ -190,7 +191,6 @@ function connectClient(hostname: string) {
             y: value[1],
             rotation: value[2],
           });
-          render();
         }
       }
     },
