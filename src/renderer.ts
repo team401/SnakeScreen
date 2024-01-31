@@ -32,6 +32,23 @@ let robotPose: Pose2D = {
   rotation: -1,
 };
 
+type Position = {
+  x: number;
+  y: number;
+};
+
+type Note = {
+  pos: Position;
+  timestamp: number;
+};
+
+const NOTE_RENDER_LIFETIME = 5;
+
+let notes: Note[] = [];
+
+// Keep track of timestamp whenever we receive data from network tables
+let currentTimestamp = -1;
+
 /** Update the pose */
 function setPose(newPose: Pose2D) {
   robotPose = newPose;
@@ -59,7 +76,6 @@ function fieldToScreenCoords(x: number, y: number): [number, number] {
 
 //** Convert a number from meters to pixels */
 function fieldToScreenDistance(d: number): number {
-  console.log(FIELD_SCALE);
   return d * FIELD_SCALE;
 }
 
@@ -84,6 +100,26 @@ function render() {
 
   // Reset transformation matrix to the identity matrix
   ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  for (let note of notes) {
+    const noteAge = currentTimestamp - note.timestamp;
+    // Calculate an opacity from 0-1 which will fade out linearly as the note ages
+    // Use max to make sure it's at least 0
+    const noteOpacity = Math.max(
+      0,
+      (NOTE_RENDER_LIFETIME - noteAge) / NOTE_RENDER_LIFETIME
+    );
+    ctx.globalAlpha = noteOpacity;
+    ctx.fillStyle = "orange";
+    ctx.fillRect(note.pos.x, note.pos.y, note.pos.x + 50, note.pos.y + 50);
+    ctx.globalAlpha = 1;
+  }
+
+  notes = notes.filter(
+    (value: Note) => value.timestamp - currentTimestamp <= NOTE_RENDER_LIFETIME
+  );
+
+  updateNotesListElement();
 
   requestAnimationFrame(render);
 }
@@ -162,15 +198,35 @@ stateSubscription.subscribe((newValue: State) => {
   console.log("State updated", newValue);
 });
 
+// Notes list element
+const notesListElement: HTMLParagraphElement = document.querySelector(
+  "#notesList"
+) as HTMLParagraphElement;
+
+/** Update the content of the notes list element based on the current list of notes */
+function updateNotesListElement() {
+  let string = "";
+  for (let note of notes) {
+    string += "{ x:";
+    string += note.pos.x.toString();
+    string += ", y:";
+    string += note.pos.y.toString();
+    string += ", timestamp: ";
+    string += note.timestamp.toString();
+    string += "},";
+  }
+  notesListElement.innerText = string;
+}
+
 // Network tables
 
 const localhostAddress = "127.0.0.1";
 
 let ntClient: NT4_Client | null = null;
-let poseSub: number = -1;
+let dataSub: number = -1;
 
 function connectClient(hostname: string) {
-  ntClient?.unsubscribe(poseSub);
+  ntClient?.unsubscribe(dataSub);
   ntClient?.disconnect();
   stateSubscription.set({ isConnected: false, err: null });
   ntClient = new NT4_Client(
@@ -183,15 +239,42 @@ function connectClient(hostname: string) {
       console.log("Topic unannounced", topic);
     },
     (topic: NT4_Topic, timestamp_us: number, value: unknown) => {
+      currentTimestamp = timestamp_us;
+      switch (topic.name) {
+        case "/CopperConsole/robotPose":
+          if (Array.isArray(value) && typeof value[0] === "number") {
+            setPose({
+              x: value[0],
+              y: value[1],
+              rotation: value[2],
+            });
+          }
+          break;
+        case "/CopperConsole/notes":
+          if (
+            Array.isArray(value) && // Assert value is an array
+            typeof value[0] == "number" && // Assert value is an array of numbers
+            value.length !== 0 && // Assert value has at least one item
+            value.length % 2 == 0 // Assert value is in pairs
+          ) {
+            for (let i = 0; i < value.length; i += 2) {
+              notes.push({
+                pos: {
+                  x: value[i],
+                  y: value[i + 1],
+                },
+                timestamp: timestamp_us,
+              });
+            }
+          } else {
+            console.log("[WARN] Oddly invalid notes data received: ", value);
+          }
+          break;
+        default:
+          break;
+      }
       if (topic.name == "/CopperConsole/robotPose") {
         console.log(timestamp_us, "New data", topic, value);
-        if (Array.isArray(value) && typeof value[0] === "number") {
-          setPose({
-            x: value[0],
-            y: value[1],
-            rotation: value[2],
-          });
-        }
       }
     },
     () => {
@@ -204,7 +287,10 @@ function connectClient(hostname: string) {
     }
   );
   ntClient.connect();
-  poseSub = ntClient.subscribe(["/CopperConsole/robotPose"], false);
+  dataSub = ntClient.subscribe(
+    ["/CopperConsole/robotPose", "/CopperConsole/notes"],
+    false
+  );
 }
 
 // Connection form

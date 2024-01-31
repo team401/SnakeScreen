@@ -1,4 +1,5 @@
 import ntcore
+import random
 import wpilib
 import math
 
@@ -14,20 +15,18 @@ class EasyNetworkTableExample(wpilib.TimedRobot):
         # your data. In this case, it's a table called datatable.
         table = inst.getTable("CopperConsole")
 
-        # Start publishing topics within that table that correspond to the X and Y values
-        # for some operation in your program.
+        # Start publishing topics within that table that correspond to robot pose and detected notes
         # The topic names are actually "/datatable/x" and "/datatable/y".
         self.robotPoseSub = table.getDoubleArrayTopic("robotPose").publish()
-        # self.xPub = table.getDoubleTopic("x").publish()
-        # self.yPub = table.getDoubleTopic("y").publish()
-        # self.xPub.set(0)
-        # self.yPub.set(0)
+        self.notesSub = table.getDoubleArrayTopic("notes").publish()
 
         self.x: float = 0
         self.y: float = 0
         self.rotation: float = 0
 
         self.joystick = wpilib.Joystick(0)
+
+        self.timer = wpilib.Timer()
 
         self.updatePoseTable()
 
@@ -41,6 +40,11 @@ class EasyNetworkTableExample(wpilib.TimedRobot):
         self.rotation += 0.05
         self.x %= 5
         self.y %= 5
+
+        notes = []
+        for _ in range(random.randint(0, 4)):
+            notes.extend([random.random() * 7, random.random() * 3, self.timer.get()])
+        self.notesSub.set(notes)
 
         self.updatePoseTable()
     
