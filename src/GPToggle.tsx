@@ -32,12 +32,20 @@ export default function GPToggle() {
         onChange={handleGP}
         sx={{ pt: 5 }}
       >
-        <ToggleButton value="coral" sx={{ my: 8 }} color="error">
+        <ToggleButton
+          value="coral"
+          sx={{ my: 8, borderWidth: 2, border: "solid" }}
+          color="error"
+        >
           <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
             CORAL
           </Typography>
         </ToggleButton>
-        <ToggleButton value="algae" sx={{ my: 8 }} color="error">
+        <ToggleButton
+          value="algae"
+          sx={{ my: 8, borderWidth: 2, border: "solid" }}
+          color="error"
+        >
           <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
             ALGAE
           </Typography>

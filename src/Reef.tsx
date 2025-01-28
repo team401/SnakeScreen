@@ -63,7 +63,13 @@ export default function Reef() {
           <ToggleButton
             color="error"
             value={entry.value}
-            sx={{ padding: 0, margin: 0, width: "120px" }}
+            sx={{
+              padding: 0,
+              margin: 0,
+              width: "120px",
+              borderWidth: 2,
+              border: "solid",
+            }}
             selected={selected == entry.value}
             onChange={() => setSelected(entry.value)}
           >

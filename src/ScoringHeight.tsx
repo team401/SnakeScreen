@@ -53,7 +53,11 @@ export default function ScoringHeight() {
         {heights
           .filter((entry) => entry.piece == gpMode)
           .map((entry) => (
-            <ToggleButton value={entry.value} sx={{ width: 500 }} color="error">
+            <ToggleButton
+              value={entry.value}
+              sx={{ width: 500, borderWidth: 2, border: "solid" }}
+              color="error"
+            >
               <Typography fontSize={80} sx={{ my: 3, textWrap: "nowrap" }}>
                 {entry.label}
               </Typography>
