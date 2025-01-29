@@ -35,7 +35,7 @@ export default function Reef() {
     { x: bPad, y: imgW * 0.65, value: 9 },
     { x: bPad, y: imgW * 0.4, value: 10 },
     { x: bPad + imgW * 0.12, y: imgW * 0.15, value: 11 },
-    { x: bPad + imgW * 0.4, y: 0, value: 12 },
+    { x: bPad + imgW * 0.4, y: 0, value: 0 },
   ];
   return (
     <Box
