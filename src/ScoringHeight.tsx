@@ -18,14 +18,14 @@ export default function ScoringHeight() {
   const [gpMode, setGP] = useEntry("/gpMode", "coral");
 
   const heights: ScoreHeights[] = [
-    { label: "Level 4", value: "coral4", piece: "coral" },
-    { label: "Level 3", value: "coral3", piece: "coral" },
-    { label: "Level 2", value: "coral2", piece: "coral" },
-    { label: "Level 1", value: "coral1", piece: "coral" },
-    { label: "Net", value: "algae4", piece: "algae" },
-    { label: "High Reef", value: "algae3", piece: "algae" },
-    { label: "Low Reef", value: "algae2", piece: "algae" },
-    { label: "Processor", value: "algae1", piece: "algae" },
+    { label: "Level 4", value: "level4", piece: "coral" },
+    { label: "Level 3", value: "level3", piece: "coral" },
+    { label: "Level 2", value: "level2", piece: "coral" },
+    { label: "Level 1", value: "level1", piece: "coral" },
+    { label: "Net", value: "level4", piece: "algae" },
+    { label: "High Reef", value: "level3", piece: "algae" },
+    { label: "Low Reef", value: "level2", piece: "algae" },
+    { label: "Processor", value: "level1", piece: "algae" },
   ];
 
   const handleChange = (
