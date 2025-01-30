@@ -9,14 +9,14 @@ import { useEntry } from "@frc-web-components/react";
 
 export default function GPToggle() {
   const [selected, setSelected] = useEntry("/scoreHeight", "-1");
-  const [target, setTarget] = useEntry("/reefTarget", "-1");
+  const [target, setTarget] = useEntry("/reefTarget", -1);
   const [gpMode, setGP] = useEntry("/gpMode", "-1");
 
   const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
     if (nextGP) {
       setGP(nextGP);
       nextGP == "algae" ? setSelected("algae1") : setSelected("coral1");
-      setTarget("-1");
+      setTarget(-1);
     }
   };
 
