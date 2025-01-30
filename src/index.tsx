@@ -16,7 +16,6 @@ const root = ReactDOM.createRoot(rootElement!);
 
 root.render(
   <ThemeProvider theme={theme}>
-    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
     <CssBaseline />
     <NT4Provider address="10.4.1.2">
       <App />
