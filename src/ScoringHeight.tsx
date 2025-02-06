@@ -23,9 +23,9 @@ export default function ScoringHeight() {
     { label: "Level 2", value: "level2", piece: "coral" },
     { label: "Level 1", value: "level1", piece: "coral" },
     { label: "Net", value: "level4", piece: "algae" },
-    { label: "High Reef", value: "level3", piece: "algae" },
-    { label: "Low Reef", value: "level2", piece: "algae" },
-    { label: "Processor", value: "level1", piece: "algae" },
+    { label: "⬆️ Reef", value: "level3", piece: "algae" },
+    { label: "⬇️ Reef", value: "level2", piece: "algae" },
+    { label: "Proc", value: "level1", piece: "algae" },
   ];
 
   const handleChange = (
@@ -40,8 +40,8 @@ export default function ScoringHeight() {
   return (
     <Box
       sx={{
-        height: 700,
-        width: 600,
+        width: 350,
+        height: 500,
       }}
     >
       <ToggleButtonGroup
@@ -55,10 +55,10 @@ export default function ScoringHeight() {
           .map((entry) => (
             <ToggleButton
               value={entry.value}
-              sx={{ width: 500, borderWidth: 2, border: "solid" }}
+              sx={{ width: 350, borderWidth: 2, height: 150, border: "solid" }}
               color="error"
             >
-              <Typography fontSize={80} sx={{ my: 3, textWrap: "nowrap" }}>
+              <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
                 {entry.label}
               </Typography>
             </ToggleButton>
