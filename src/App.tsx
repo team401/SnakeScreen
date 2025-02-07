@@ -12,33 +12,31 @@ import GPIndicator from "./GPIndicator";
 
 export default function App() {
   return (
-    <NT4Provider address="localhost">
-      <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
-        <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
-          <Typography
-            variant="h3"
-            component="h1"
-            sx={{ m: 0, p: 0, position: "absolute", right: 0 }}
-          >
-            <Box fontWeight="900" sx={{ textAlign: "right", m: 0, p: 0 }}>
-              SnakeScreen
-            </Box>
-          </Typography>
-          <Stack direction={"row"} spacing={0} sx={{ my: 0, pt: 2 }}>
-            <Stack direction={"column"} spacing={15} sx={{ px: 0, mx: 0 }}>
-              <ScoringHeight />
-              <GPToggle />
-            </Stack>
-
-            <Reef />
-            <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
-              <GPIndicator name=" Coral " ntPath="/hasCoral" />
-              <GPIndicator name="Algae" ntPath="/hasAlgae" />
-            </Stack>
-            <Autonomy />
+    <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
+      <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{ m: 0, p: 0, position: "absolute", right: 0 }}
+        >
+          <Box fontWeight="900" sx={{ textAlign: "right", m: 0, p: 0 }}>
+            SnakeScreen
+          </Box>
+        </Typography>
+        <Stack direction={"row"} spacing={0} sx={{ my: 0, pt: 2 }}>
+          <Stack direction={"column"} spacing={15} sx={{ px: 0, mx: 0 }}>
+            <ScoringHeight />
+            <GPToggle />
           </Stack>
-        </Box>
-      </Container>
-    </NT4Provider>
+
+          <Reef />
+          <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
+            <GPIndicator name=" Coral " ntPath="/hasCoral" />
+            <GPIndicator name="Algae" ntPath="/hasAlgae" />
+          </Stack>
+          <Autonomy />
+        </Stack>
+      </Box>
+    </Container>
   );
 }
