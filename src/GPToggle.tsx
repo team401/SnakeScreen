@@ -23,20 +23,28 @@ export default function GPToggle() {
   return (
     <Box
       sx={{
-        height: 150,
-        width: 700,
+        height: 120,
+        width: 350,
+        p: 0,
+        m: 0,
       }}
     >
       <ToggleButtonGroup
-        orientation="horizontal"
+        orientation="vertical"
         value={gpMode}
         exclusive
         onChange={handleGP}
-        sx={{ pt: 5 }}
+        sx={{ p: 0, m: 0 }}
       >
         <ToggleButton
           value="coral"
-          sx={{ my: 8, borderWidth: 2, border: "solid" }}
+          sx={{
+            my: 0,
+            borderWidth: 2,
+            border: "solid",
+            height: 100,
+            width: 350,
+          }}
           color="error"
         >
           <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
@@ -45,7 +53,13 @@ export default function GPToggle() {
         </ToggleButton>
         <ToggleButton
           value="algae"
-          sx={{ my: 8, borderWidth: 2, border: "solid" }}
+          sx={{
+            my: 8,
+            borderWidth: 2,
+            border: "solid",
+            height: 100,
+            width: 350,
+          }}
           color="error"
         >
           <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>

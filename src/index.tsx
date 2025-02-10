@@ -15,10 +15,10 @@ const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement!);
 
 root.render(
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <NT4Provider address="10.4.1.2">
+  <NT4Provider address="10.4.1.2">
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <App />
-    </NT4Provider>
-  </ThemeProvider>
+    </ThemeProvider>
+  </NT4Provider>
 );
