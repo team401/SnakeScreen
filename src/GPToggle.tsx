@@ -15,7 +15,7 @@ export default function GPToggle() {
   const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
     if (nextGP) {
       setGP(nextGP);
-      nextGP == "algae" ? setSelected("algae1") : setSelected("coral1");
+      nextGP == "algae" ? setSelected("algae1") : setSelected("level1");
       setTarget(-1);
     }
   };
