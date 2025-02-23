@@ -16,9 +16,9 @@ export default function Autonomy() {
   const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "mid");
 
   const modes: autonomyLevels[] = [
-    { value: "high", label: "High" },
-    { value: "mid", label: "Mid" },
-    { value: "low", label: "Low" },
+    { value: "high", label: "Auto" },
+    { value: "mid", label: "Teleop" },
+    { value: "low", label: "Manual" },
   ];
 
   const handleChange = (
