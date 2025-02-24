@@ -9,6 +9,7 @@ import GPToggle from "./GPToggle";
 import { BooleanBox, NT4Provider } from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
+import ActionQueue from "./ActionQueue";
 
 export default function App() {
   return (
@@ -31,8 +32,9 @@ export default function App() {
 
           <Reef />
           <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
-            <GPIndicator name=" Coral " ntPath="/hasCoral" />
-            <GPIndicator name="Algae" ntPath="/hasAlgae" />
+            {/* <GPIndicator name=" Coral " ntPath="/hasCoral" />
+            <GPIndicator name="Algae" ntPath="/hasAlgae" /> */}
+            <ActionQueue />
           </Stack>
           <Autonomy />
         </Stack>
