@@ -5,7 +5,6 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useEntry } from "@frc-web-components/react";
 
 type ScoreHeights = {
   label: string;
@@ -13,10 +12,13 @@ type ScoreHeights = {
   piece: "coral" | "algae";
 };
 
-export default function ScoringHeight() {
-  const [selected, setSelected] = useEntry("/scoreHeight", "-1");
-  const [gpMode, setGP] = useEntry("/gpMode", "coral");
+type ScoreHeightProps = {
+  setHeight: Function;
+  height: string;
+  gamepiece: string;
+};
 
+export default function ScoringHeight(props: ScoreHeightProps) {
   const heights: ScoreHeights[] = [
     { label: "Level 4", value: "level4", piece: "coral" },
     { label: "Level 3", value: "level3", piece: "coral" },
@@ -33,7 +35,7 @@ export default function ScoringHeight() {
     nextLevel: string
   ) => {
     if (nextLevel) {
-      setSelected(nextLevel);
+      props.setHeight(nextLevel);
     }
   };
 
@@ -46,14 +48,15 @@ export default function ScoringHeight() {
     >
       <ToggleButtonGroup
         orientation="vertical"
-        value={selected}
+        value={props.height}
         exclusive
         onChange={handleChange}
       >
         {heights
-          .filter((entry) => entry.piece == gpMode)
+          .filter((entry) => entry.piece == props.gamepiece)
           .map((entry) => (
             <ToggleButton
+              key={entry.value}
               value={entry.value}
               sx={{ width: 350, borderWidth: 2, height: 150, border: "solid" }}
               color="error"

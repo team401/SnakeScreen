@@ -4,12 +4,10 @@ import { BooleanBox, useEntry } from "@frc-web-components/react";
 
 type gpInfo = {
   name: string;
-  ntPath: string;
+  value: boolean;
 };
 
 export default function GPIndicator(props: gpInfo) {
-  const [hasGP, setGP] = useEntry(props.ntPath, false);
-
   return (
     <Box
       sx={{
@@ -26,7 +24,7 @@ export default function GPIndicator(props: gpInfo) {
         >
           Has {props.name}
         </Typography>
-        <BooleanBox value={hasGP}></BooleanBox>
+        <BooleanBox value={props.value}></BooleanBox>
       </Stack>
     </Box>
   );

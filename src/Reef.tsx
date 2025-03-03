@@ -1,15 +1,8 @@
 import * as React from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  ToggleButton,
-  Typography,
-} from "@mui/material";
+import { Box, ToggleButton, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import reefImg from "./reef.png";
-import { useEntry } from "@frc-web-components/react";
 
 type ReefButton = {
   x: number;
@@ -25,11 +18,15 @@ type StationButton = {
   label: React.ReactElement;
 };
 
-export default function Reef() {
-  const [scoringTarget, setScoringTarget] = useEntry("/reefTarget", -1);
-  const [intakeTarget, setIntakeTarget] = useEntry("/stationTarget", 20);
-  const [gpMode, setGP] = useEntry("/gpMode", "coral");
+type ReefProps = {
+  gamepiece: string;
+  reefTarget: number;
+  setReefTarget: Function;
+  intakeStation: number;
+  setIntakeStation: Function;
+};
 
+export default function Reef(props: ReefProps) {
   let divW = 1200;
   let imgW = 900;
   let padder = (divW - imgW) / 2;
@@ -83,9 +80,10 @@ export default function Reef() {
       </Box>
 
       {buttonList
-        .filter((entry) => entry.piece == gpMode)
+        .filter((entry) => entry.piece == props.gamepiece)
         .map((entry) => (
           <div
+            key={entry.piece + entry.value}
             style={{
               position: "absolute",
               top: entry.y,
@@ -105,8 +103,8 @@ export default function Reef() {
                 borderWidth: 2,
                 border: "solid",
               }}
-              selected={scoringTarget == entry.value}
-              onChange={() => setScoringTarget(entry.value)}
+              selected={props.reefTarget == entry.value}
+              onChange={() => props.setReefTarget(entry.value)}
             >
               <Typography px={3} py={1.5} m={0} fontSize={100} lineHeight={0.9}>
                 {entry.value}
@@ -116,6 +114,7 @@ export default function Reef() {
         ))}
       {intakeStations.map((entry) => (
         <div
+          key={entry.value}
           style={{
             position: "absolute",
             top: entry.y,
@@ -135,8 +134,8 @@ export default function Reef() {
               borderWidth: 2,
               border: "solid",
             }}
-            selected={intakeTarget == entry.value}
-            onChange={() => setIntakeTarget(entry.value)}
+            selected={props.intakeStation == entry.value}
+            onChange={() => props.setIntakeStation(entry.value)}
           >
             <Typography px={3} py={0} m={0} fontSize={100} lineHeight={0.9}>
               {entry.label}

@@ -12,9 +12,12 @@ type autonomyLevels = {
   label: string;
 };
 
-export default function Autonomy() {
-  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "mid");
+type autoProps = {
+  setAutonomy: Function;
+  autonomy: string;
+};
 
+export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
     { value: "high", label: "High" },
     { value: "mid", label: "Mid" },
@@ -26,7 +29,7 @@ export default function Autonomy() {
     nextMode: string
   ) => {
     if (nextMode) {
-      setAutonomy(nextMode);
+      props.setAutonomy(nextMode);
     }
   };
 
@@ -52,13 +55,14 @@ export default function Autonomy() {
       </Typography>
       <ToggleButtonGroup
         orientation="vertical"
-        value={autonomy}
+        value={props.autonomy}
         exclusive
         onChange={handleChange}
         sx={{ p: 0, m: 0 }}
       >
         {modes.map((mode) => (
           <ToggleButton
+            key={mode.value}
             value={mode.value}
             sx={{ width: 200, height: 80, borderWidth: 2, border: "solid" }}
             color="error"

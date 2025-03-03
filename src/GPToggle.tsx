@@ -5,18 +5,24 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useEntry } from "@frc-web-components/react";
 
-export default function GPToggle() {
-  const [selected, setSelected] = useEntry("/scoreHeight", "-1");
-  const [target, setTarget] = useEntry("/reefTarget", -1);
-  const [gpMode, setGP] = useEntry("/gpMode", "-1");
+type GPToggleProps = {
+  gamepiece: string;
+  setGP: Function;
+  scoreHeight: string;
+  setScoreHeight: Function;
+  reefTarget: number;
+  setReefTarget: Function;
+};
 
+export default function GPToggle(props: GPToggleProps) {
   const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
     if (nextGP) {
-      setGP(nextGP);
-      nextGP == "algae" ? setSelected("algae1") : setSelected("coral1");
-      setTarget(-1);
+      props.setGP(nextGP);
+      nextGP == "algae"
+        ? props.setScoreHeight("algae1")
+        : props.setScoreHeight("coral1");
+      props.setReefTarget(-1);
     }
   };
 
@@ -31,7 +37,7 @@ export default function GPToggle() {
     >
       <ToggleButtonGroup
         orientation="vertical"
-        value={gpMode}
+        value={props.gamepiece}
         exclusive
         onChange={handleGP}
         sx={{ p: 0, m: 0 }}
