@@ -19,9 +19,7 @@ export default function GPToggle(props: GPToggleProps) {
   const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
     if (nextGP) {
       props.setGP(nextGP);
-      nextGP == "algae"
-        ? props.setScoreHeight("algae1")
-        : props.setScoreHeight("coral1");
+      props.setScoreHeight("level1");
       props.setReefTarget(-1);
     }
   };
