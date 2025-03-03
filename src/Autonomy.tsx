@@ -39,7 +39,7 @@ export default function Autonomy(props: autoProps) {
         width: 220,
         position: "absolute",
         right: 5,
-        bottom: 1,
+        bottom: 2,
         m: 0,
         p: 0,
       }}
