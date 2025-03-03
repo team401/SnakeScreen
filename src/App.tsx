@@ -23,7 +23,7 @@ export default function App() {
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
   const [isConnected, setConnected] = React.useState(nt4.isConnected());
 
-  useNt4().nt4Provider.addConnectionListener((conn) => {
+  useNt4().nt4Provider.addConnectionListener((conn: boolean) => {
     setConnected(conn), true;
   });
 

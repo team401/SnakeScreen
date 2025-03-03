@@ -1,5 +1,7 @@
 {
   "name": "snakescreen",
+  "author": "Team 401",
+  "description": "FRC Operator Interface",
   "version": "0.0.1",
   "private": true,
   "main": "electron-main.js",
@@ -18,14 +20,28 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "electron-forge start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@electron-forge/cli": "^7.7.0",
+    "@electron-forge/maker-deb": "^7.7.0",
+    "@electron-forge/maker-rpm": "^7.7.0",
+    "@electron-forge/maker-squirrel": "^7.7.0",
+    "@electron-forge/maker-zip": "^7.7.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.7.0",
+    "@electron-forge/plugin-fuses": "^7.7.0",
+    "@electron/fuses": "^1.8.0",
     "electron": "^34.3.0",
+    "electron-squirrel-startup": "^1.0.1",
+    "install": "^0.13.0",
+    "npm": "^10.9.2",
     "react-scripts": "latest"
   },
   "browserslist": {
