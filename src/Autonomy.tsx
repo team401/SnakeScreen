@@ -19,9 +19,9 @@ type autoProps = {
 
 export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
-    { value: "high", label: "High" },
-    { value: "mid", label: "Mid" },
-    { value: "low", label: "Low" },
+    { value: "high", label: "Full Auto" },
+    { value: "mid", label: "Teleop" },
+    { value: "low", label: "Manual" },
   ];
 
   const handleChange = (
