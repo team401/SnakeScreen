@@ -12,7 +12,7 @@ import GPIndicator from "./GPIndicator";
 
 export default function App() {
   const [reefTarget, setReefTarget] = useEntry("/reefTarget", -1);
-  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 20);
+  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 21);
   const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "-1");
   const [gamepiece, setGamepiece] = useEntry("/gpMode", "coral");
   const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "mid");
