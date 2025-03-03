@@ -5,7 +5,6 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useEntry } from "@frc-web-components/react";
 
 type autonomyLevels = {
   value: string;
@@ -19,9 +18,9 @@ type autoProps = {
 
 export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
-    { value: "high", label: "Full Auto" },
-    { value: "mid", label: "Teleop" },
-    { value: "low", label: "Manual" },
+    { value: "high", label: "Full" },
+    { value: "mid", label: "Mixed" },
+    { value: "low", label: "None" },
   ];
 
   const handleChange = (
@@ -37,7 +36,7 @@ export default function Autonomy(props: autoProps) {
     <Box
       sx={{
         height: 290,
-        width: 200,
+        width: 220,
         position: "absolute",
         right: 5,
         bottom: 1,
@@ -64,12 +63,19 @@ export default function Autonomy(props: autoProps) {
           <ToggleButton
             key={mode.value}
             value={mode.value}
-            sx={{ width: 200, height: 80, borderWidth: 2, border: "solid" }}
+            sx={{
+              width: 220,
+              height: 80,
+              borderWidth: 2,
+              border: "solid",
+              p: 0,
+              ml: 0,
+            }}
             color="error"
           >
             <Typography
               fontSize={70}
-              sx={{ px: 1, width: 200, textWrap: "nowrap" }}
+              sx={{ mx: 0, px: 0, width: 210, textWrap: "nowrap" }}
             >
               {mode.label}
             </Typography>

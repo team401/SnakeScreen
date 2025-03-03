@@ -4,13 +4,16 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Reef from "./Reef";
 import ScoringHeight from "./ScoringHeight";
-import { Grid, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import GPToggle from "./GPToggle";
-import { BooleanBox, NT4Provider, useEntry } from "@frc-web-components/react";
+import { useEntry, useNt4 } from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
+import ConnectionStatus from "./ConnectionStatus";
 
 export default function App() {
+  const nt4 = useNt4().nt4Provider;
+
   const [reefTarget, setReefTarget] = useEntry("/reefTarget", -1);
   const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 21);
   const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "-1");
@@ -18,6 +21,11 @@ export default function App() {
   const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "mid");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
+  const [isConnected, setConnected] = React.useState(nt4.isConnected());
+
+  useNt4().nt4Provider.addConnectionListener((conn) => {
+    setConnected(conn), true;
+  });
 
   return (
     <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
@@ -62,6 +70,7 @@ export default function App() {
           <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
         </Stack>
       </Box>
+      <ConnectionStatus isConnected={isConnected} />
     </Container>
   );
 }

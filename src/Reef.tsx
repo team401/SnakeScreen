@@ -61,7 +61,7 @@ export default function Reef(props: ReefProps) {
       label: <ArrowBackIcon sx={{ fontSize: 100 }} />,
     },
     {
-      x: bPad + imgW * 1.15,
+      x: bPad + imgW * 1.1,
       y: imgW,
       value: 21,
       label: <ArrowForwardIcon sx={{ fontSize: 100 }} />,
