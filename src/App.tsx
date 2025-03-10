@@ -11,11 +11,11 @@ import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
 
 export default function App() {
-  const [reefTarget, setReefTarget] = useEntry("/reefTarget", -1);
+  const [reefTarget, setReefTarget] = useEntry("/reefTarget", 10);
   const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 21);
-  const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "-1");
+  const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "level4");
   const [gamepiece, setGamepiece] = useEntry("/gpMode", "coral");
-  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "mid");
+  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "near");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
 
@@ -48,13 +48,15 @@ export default function App() {
             />
           </Stack>
 
-          <Reef
-            gamepiece={gamepiece}
-            reefTarget={reefTarget}
-            setReefTarget={setReefTarget}
-            intakeStation={intakeStation}
-            setIntakeStation={setIntakeStation}
-          />
+          {autonomy !== "near" && (
+            <Reef
+              gamepiece={gamepiece}
+              reefTarget={reefTarget}
+              setReefTarget={setReefTarget}
+              intakeStation={intakeStation}
+              setIntakeStation={setIntakeStation}
+            />
+          )}
           <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
             <GPIndicator name=" Coral " value={hasCoral} />
             <GPIndicator name="Algae" value={hasAlgae} />

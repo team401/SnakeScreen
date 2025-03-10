@@ -53,20 +53,6 @@ export default function Reef(props: ReefProps) {
     { x: bPad + imgW * 0.08, y: imgW * 0.25, value: 5, piece: "algae" },
   ];
 
-  let intakeStations: StationButton[] = [
-    {
-      x: 0,
-      y: imgW,
-      value: 20,
-      label: <ArrowBackIcon sx={{ fontSize: 100 }} />,
-    },
-    {
-      x: bPad + imgW * 1.15,
-      y: imgW,
-      value: 21,
-      label: <ArrowForwardIcon sx={{ fontSize: 100 }} />,
-    },
-  ];
   return (
     <Box
       sx={{
@@ -112,37 +98,6 @@ export default function Reef(props: ReefProps) {
             </ToggleButton>
           </div>
         ))}
-      {intakeStations.map((entry) => (
-        <div
-          key={entry.value}
-          style={{
-            position: "absolute",
-            top: entry.y,
-            left: entry.x,
-            zIndex: 1000,
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          <ToggleButton
-            color="error"
-            value={entry.value}
-            sx={{
-              padding: 0,
-              margin: 0,
-              width: "120px",
-              borderWidth: 2,
-              border: "solid",
-            }}
-            selected={props.intakeStation == entry.value}
-            onChange={() => props.setIntakeStation(entry.value)}
-          >
-            <Typography px={3} py={0} m={0} fontSize={100} lineHeight={0.9}>
-              {entry.label}
-            </Typography>
-          </ToggleButton>
-        </div>
-      ))}
     </Box>
   );
 }

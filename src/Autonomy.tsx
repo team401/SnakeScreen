@@ -5,7 +5,6 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useEntry } from "@frc-web-components/react";
 
 type autonomyLevels = {
   value: string;
@@ -19,9 +18,10 @@ type autoProps = {
 
 export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
-    { value: "high", label: "Full Auto" },
-    { value: "mid", label: "Teleop" },
     { value: "low", label: "Manual" },
+    { value: "near", label: "Near" },
+    { value: "mid", label: "Mixed" },
+    { value: "high", label: "Full" },
   ];
 
   const handleChange = (

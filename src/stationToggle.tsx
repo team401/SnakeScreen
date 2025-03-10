@@ -6,21 +6,18 @@ import {
   Typography,
 } from "@mui/material";
 
-type GPToggleProps = {
-  gamepiece: string;
-  setGP: Function;
-  scoreHeight: string;
-  setScoreHeight: Function;
-  reefTarget: number;
-  setReefTarget: Function;
+type StationToggleProps = {
+  station: string;
+  setStation: Function;
 };
 
-export default function GPToggle(props: GPToggleProps) {
-  const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
-    if (nextGP) {
-      props.setGP(nextGP);
-      props.setScoreHeight(nextGP == "algae" ? "level2" : "level4");
-      props.setReefTarget(10);
+export default function StationToggle(props: StationToggleProps) {
+  const handleStation = (
+    event: React.MouseEvent<HTMLElement>,
+    nextStation: string
+  ) => {
+    if (nextStation) {
+      props.setStation(nextStation);
     }
   };
 
@@ -35,13 +32,13 @@ export default function GPToggle(props: GPToggleProps) {
     >
       <ToggleButtonGroup
         orientation="vertical"
-        value={props.gamepiece}
+        value={props.station}
         exclusive
-        onChange={handleGP}
+        onChange={handleStation}
         sx={{ p: 0, m: 0 }}
       >
         <ToggleButton
-          value="coral"
+          value="left"
           sx={{
             my: 0,
             borderWidth: 2,
@@ -52,11 +49,11 @@ export default function GPToggle(props: GPToggleProps) {
           color="error"
         >
           <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            CORAL
+            LEFT
           </Typography>
         </ToggleButton>
         <ToggleButton
-          value="algae"
+          value="right"
           sx={{
             my: 8,
             borderWidth: 2,
@@ -67,7 +64,7 @@ export default function GPToggle(props: GPToggleProps) {
           color="error"
         >
           <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            ALGAE
+            RIGHT
           </Typography>
         </ToggleButton>
       </ToggleButtonGroup>
