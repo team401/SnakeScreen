@@ -41,6 +41,7 @@
     "@electron-forge/plugin-fuses": "^7.7.0",
     "@electron/fuses": "^1.8.0",
     "electron": "^34.3.0",
+    "electron-is-dev": "^3.0.1",
     "electron-squirrel-startup": "^1.0.1",
     "install": "^0.13.0",
     "npm": "^10.9.2",
