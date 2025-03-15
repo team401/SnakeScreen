@@ -20,6 +20,7 @@ type autoProps = {
 export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
     { value: "high", label: "Full Auto" },
+    { value: "smart", label: "Smart" },
     { value: "mid", label: "Teleop" },
     { value: "low", label: "Manual" },
   ];
