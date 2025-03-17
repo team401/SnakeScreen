@@ -6,18 +6,31 @@ import Reef from "./Reef";
 import ScoringHeight from "./ScoringHeight";
 import { Grid, Stack } from "@mui/material";
 import GPToggle from "./GPToggle";
-import { BooleanBox, NT4Provider, useEntry } from "@frc-web-components/react";
+import {
+  BooleanBox,
+  NT4Provider,
+  useEntry,
+  useNt4,
+} from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
+import ConnectionStatus from "./ConnectionStatus";
 
 export default function App() {
+  const nt4 = useNt4().nt4Provider;
+
   const [reefTarget, setReefTarget] = useEntry("/reefTarget", 10);
   const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 21);
   const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "level4");
   const [gamepiece, setGamepiece] = useEntry("/gpMode", "coral");
-  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "near");
+  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "smart");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
+  const [isConnected, setConnected] = React.useState(nt4.isConnected());
+
+  useNt4().nt4Provider.addConnectionListener((conn: boolean) => {
+    setConnected(conn), true;
+  });
 
   return (
     <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
@@ -60,6 +73,7 @@ export default function App() {
           <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
             <GPIndicator name=" Coral " value={hasCoral} />
             <GPIndicator name="Algae" value={hasAlgae} />
+            <ConnectionStatus isConnected={isConnected} />
           </Stack>
           <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
         </Stack>
