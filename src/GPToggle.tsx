@@ -1,6 +1,8 @@
 import * as React from "react";
 import {
   Box,
+  Stack,
+  Switch,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -16,61 +18,39 @@ type GPToggleProps = {
 };
 
 export default function GPToggle(props: GPToggleProps) {
-  const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
-    if (nextGP) {
-      props.setGP(nextGP);
-      props.setScoreHeight(nextGP == "algae" ? "level2" : "level4");
-      props.setReefTarget(10);
-    }
+  const handleGP = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    isCoral: boolean
+  ) => {
+    let nextGP = isCoral ? "coral" : "algae";
+    props.setGP(nextGP);
+    props.setScoreHeight(nextGP == "algae" ? "level2" : "level4");
+    props.setReefTarget(10);
   };
 
   return (
     <Box
       sx={{
+        position: "absolute",
+        bottom: 30,
+        left: 3,
         height: 120,
         width: 350,
         p: 0,
         m: 0,
       }}
     >
-      <ToggleButtonGroup
-        orientation="vertical"
-        value={props.gamepiece}
-        exclusive
-        onChange={handleGP}
-        sx={{ p: 0, m: 0 }}
-      >
-        <ToggleButton
-          value="coral"
-          sx={{
-            my: 0,
-            borderWidth: 2,
-            border: "solid",
-            height: 100,
-            width: 350,
-          }}
+      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+        <Typography sx={{ pr: 8, fontSize: 60 }}>Algae</Typography>
+        <Switch
+          defaultChecked
           color="error"
-        >
-          <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            CORAL
-          </Typography>
-        </ToggleButton>
-        <ToggleButton
-          value="algae"
-          sx={{
-            my: 8,
-            borderWidth: 2,
-            border: "solid",
-            height: 100,
-            width: 350,
-          }}
-          color="error"
-        >
-          <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            ALGAE
-          </Typography>
-        </ToggleButton>
-      </ToggleButtonGroup>
+          checked={props.gamepiece == "coral"}
+          onChange={handleGP}
+          sx={{ transform: "scale(5)", m: 40 }}
+        />
+        <Typography sx={{ pl: 8, fontSize: 60 }}>Coral</Typography>
+      </Stack>
     </Box>
   );
 }

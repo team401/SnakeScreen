@@ -48,7 +48,7 @@ export default function App() {
             />
           </Stack>
 
-          {autonomy !== "near" && (
+          {["high", "mid"].includes(autonomy, 0) && (
             <Reef
               gamepiece={gamepiece}
               reefTarget={reefTarget}

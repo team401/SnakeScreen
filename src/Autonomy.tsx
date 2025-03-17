@@ -18,8 +18,8 @@ type autoProps = {
 
 export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
-    { value: "low", label: "Manual" },
-    { value: "near", label: "Near" },
+    { value: "low", label: "None" },
+    { value: "smart", label: "Smart" },
     { value: "mid", label: "Mixed" },
     { value: "high", label: "Full" },
   ];
@@ -36,8 +36,8 @@ export default function Autonomy(props: autoProps) {
   return (
     <Box
       sx={{
-        height: 290,
-        width: 200,
+        height: 370,
+        width: 240,
         position: "absolute",
         right: 5,
         bottom: 1,
@@ -64,12 +64,12 @@ export default function Autonomy(props: autoProps) {
           <ToggleButton
             key={mode.value}
             value={mode.value}
-            sx={{ width: 200, height: 80, borderWidth: 2, border: "solid" }}
+            sx={{ width: 240, height: 80, borderWidth: 2, border: "solid" }}
             color="error"
           >
             <Typography
               fontSize={70}
-              sx={{ px: 1, width: 200, textWrap: "nowrap" }}
+              sx={{ px: 1, width: 250, textWrap: "nowrap" }}
             >
               {mode.label}
             </Typography>
