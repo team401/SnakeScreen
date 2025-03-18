@@ -6,24 +6,38 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.1.1",
+    "@frc-web-components/fwc": "^3.2.0",
     "@frc-web-components/react": "^2.1.0",
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.1",
     "@types/estree": "^1.0.6",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
+    "force": "^0.0.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "wait-on": "^8.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron:start": "concurrently \"npm run start\" \"npm run electron:run\"",
+    "electron:build": "electron-builder",
+    "electron:run": "electron ."
   },
   "devDependencies": {
-    "react-scripts": "latest"
+    "@types/wait-on": "^5.3.4",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^35.0.2",
+    "electron-builder": "^25.1.8",
+    "electron-is-dev": "^3.0.1",
+    "electron-packager": "^17.1.2",
+    "react-scripts": "latest",
+    "typescript": "^5.8.2"
   },
   "browserslist": {
     "production": [
@@ -36,5 +50,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "main": "dist/main.js",
+ "build": {
+    "appId": "com.snakescreen.app",
+    "productName": "SnakeScreen",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "public/favicon.ico"
+    }
   }
 }

@@ -15,7 +15,7 @@ const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement!);
 
 root.render(
-  <NT4Provider address="10.4.1.2">
+  <NT4Provider address="127.0.0.1">
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <App />
