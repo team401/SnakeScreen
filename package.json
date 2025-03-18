@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && copy src\\electron.js build\\electron.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron:start": "concurrently \"npm run start\" \"npm run electron:run\"",
@@ -51,7 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "main": "dist/main.js",
+  "main": "public/electron.js",
  "build": {
     "appId": "com.snakescreen.app",
     "productName": "SnakeScreen",
