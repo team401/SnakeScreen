@@ -23,8 +23,19 @@ export default function App() {
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
   const [isConnected, setConnected] = React.useState(nt4.isConnected());
 
+  const handleConnect = (conn: boolean) => {
+    setConnected(conn);
+    if (conn) {
+      setIntakeStation("left");
+      setCoralHeight("level4");
+      setAlgaeHeight("level4");
+      setGamepiece("coral");
+      setAutonomy("smart");
+    }
+  };
+
   useNt4().nt4Provider.addConnectionListener((conn: boolean) => {
-    setConnected(conn), true;
+    handleConnect(conn), true;
   });
 
   return (
