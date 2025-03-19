@@ -48,12 +48,7 @@ export default function App() {
           sx={{ my: 0, p: 0, justifyContent: "center" }}
         >
           <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
-            <GPToggle
-              gamepiece={gamepiece}
-              setGP={setGamepiece}
-              reefTarget={reefTarget}
-              setReefTarget={setReefTarget}
-            />
+            <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
             <ScoringHeight
               coralHeight={coralHeight}
               setCoralHeight={setCoralHeight}

@@ -11,8 +11,6 @@ import {
 type GPToggleProps = {
   gamepiece: string;
   setGP: Function;
-  reefTarget: number;
-  setReefTarget: Function;
 };
 
 const theme = createTheme({
@@ -51,7 +49,6 @@ export default function GPToggle(props: GPToggleProps) {
   ) => {
     let nextGP = isCoral ? "coral" : "algae";
     props.setGP(nextGP);
-    props.setReefTarget(10);
   };
 
   return (
