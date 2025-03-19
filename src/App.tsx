@@ -20,7 +20,6 @@ import StationToggle from "./stationToggle";
 export default function App() {
   const nt4 = useNt4().nt4Provider;
 
-  const [reefTarget, setReefTarget] = useEntry("/reefTarget", 10);
   const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
   const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
   const [algaeHeight, setAlgaeHeight] = useEntry("/algaeHeight", "level4");
