@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  Box,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, styled, Switch, Typography } from "@mui/material";
 
 type StationToggleProps = {
   station: string;
@@ -13,61 +8,37 @@ type StationToggleProps = {
 
 export default function StationToggle(props: StationToggleProps) {
   const handleStation = (
-    event: React.MouseEvent<HTMLElement>,
-    nextStation: string
+    event: React.ChangeEvent<HTMLInputElement>,
+    isRight: boolean
   ) => {
-    if (nextStation) {
-      props.setStation(nextStation);
-    }
+    let newStation = isRight ? "right" : "left";
+    props.setStation(newStation);
   };
 
   return (
     <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
       sx={{
         height: 120,
-        width: 350,
-        p: 0,
+        width: 400,
         m: 0,
       }}
     >
-      <ToggleButtonGroup
-        orientation="vertical"
-        value={props.station}
-        exclusive
-        onChange={handleStation}
-        sx={{ p: 0, m: 0 }}
-      >
-        <ToggleButton
-          value="left"
-          sx={{
-            my: 0,
-            borderWidth: 2,
-            border: "solid",
-            height: 100,
-            width: 350,
-          }}
+      <Typography sx={{ pb: 2, fontSize: 60 }}>Intake</Typography>
+      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+        <Typography sx={{ pr: 12, fontSize: 60 }}>L</Typography>
+        <Switch
+          defaultChecked
           color="error"
-        >
-          <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            LEFT
-          </Typography>
-        </ToggleButton>
-        <ToggleButton
-          value="right"
-          sx={{
-            my: 8,
-            borderWidth: 2,
-            border: "solid",
-            height: 100,
-            width: 350,
-          }}
-          color="error"
-        >
-          <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            RIGHT
-          </Typography>
-        </ToggleButton>
-      </ToggleButtonGroup>
+          checked={props.station === "right"}
+          onChange={handleStation}
+          sx={{ transform: "scale(6)", m: 40 }}
+        />
+        <Typography sx={{ pl: 12, fontSize: 60 }}>R</Typography>
+      </Stack>
     </Box>
   );
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Box,
+  styled,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -13,9 +14,10 @@ type ScoreHeights = {
 };
 
 type ScoreHeightProps = {
-  setHeight: Function;
-  height: string;
-  gamepiece: string;
+  setCoralHeight: Function;
+  coralHeight: string;
+  setAlgaeHeight: Function;
+  algaeHeight: string;
 };
 
 export default function ScoringHeight(props: ScoreHeightProps) {
@@ -30,41 +32,99 @@ export default function ScoringHeight(props: ScoreHeightProps) {
     { label: "Proc", value: "level1", piece: "algae" },
   ];
 
-  const handleChange = (
+  const BigButton = styled(ToggleButton)(({ theme }) => ({
+    width: 350,
+    borderWidth: 2,
+    height: 150,
+    border: "solid",
+  }));
+
+  const AlgaeButton = styled(BigButton)(({ theme }) => ({
+    "&.Mui-selected": {
+      color: "black",
+      backgroundColor: "aqua",
+      "&:hover": {
+        color: "black",
+        backgroundColor: "aqua",
+      },
+    },
+    "&:hover": {
+      color: "black",
+      backgroundColor: "aqua",
+    },
+  }));
+
+  const CoralButton = styled(BigButton)(({ theme }) => ({
+    "&.Mui-selected": {
+      color: "black",
+      backgroundColor: "fuchsia",
+      "&:hover": {
+        color: "black",
+        backgroundColor: "fuchsia",
+      },
+    },
+    "&:hover": {
+      color: "black",
+      backgroundColor: "fuchsia",
+    },
+  }));
+
+  const handleCoralChange = (
     event: React.MouseEvent<HTMLElement>,
     nextLevel: string
   ) => {
     if (nextLevel) {
-      props.setHeight(nextLevel);
+      props.setCoralHeight(nextLevel);
+    }
+  };
+
+  const handleAlgaeChange = (
+    event: React.MouseEvent<HTMLElement>,
+    nextLevel: string
+  ) => {
+    if (nextLevel) {
+      props.setAlgaeHeight(nextLevel);
     }
   };
 
   return (
     <Box
       sx={{
-        width: 350,
+        width: 750,
         height: 500,
       }}
     >
       <ToggleButtonGroup
         orientation="vertical"
-        value={props.height}
+        value={props.algaeHeight}
         exclusive
-        onChange={handleChange}
+        onChange={handleAlgaeChange}
       >
         {heights
-          .filter((entry) => entry.piece == props.gamepiece)
+          .filter((entry) => entry.piece == "algae")
           .map((entry) => (
-            <ToggleButton
-              key={entry.value}
-              value={entry.value}
-              sx={{ width: 350, borderWidth: 2, height: 150, border: "solid" }}
-              color="error"
-            >
+            <AlgaeButton key={entry.value} value={entry.value}>
               <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
                 {entry.label}
               </Typography>
-            </ToggleButton>
+            </AlgaeButton>
+          ))}
+      </ToggleButtonGroup>
+      <ToggleButtonGroup
+        orientation="vertical"
+        value={props.coralHeight}
+        sx={{ ml: 4 }}
+        exclusive
+        onChange={handleCoralChange}
+      >
+        {heights
+          .filter((entry) => entry.piece == "coral")
+          .map((entry) => (
+            <CoralButton key={entry.value} value={entry.value}>
+              <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
+                {entry.label}
+              </Typography>
+            </CoralButton>
           ))}
       </ToggleButtonGroup>
     </Box>

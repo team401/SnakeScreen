@@ -1,21 +1,48 @@
 import * as React from "react";
 import {
   Box,
+  createTheme,
   Stack,
   Switch,
-  ToggleButton,
-  ToggleButtonGroup,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 
 type GPToggleProps = {
   gamepiece: string;
   setGP: Function;
-  scoreHeight: string;
-  setScoreHeight: Function;
   reefTarget: number;
   setReefTarget: Function;
 };
+
+const theme = createTheme({
+  components: {
+    MuiSwitch: {
+      styleOverrides: {
+        switchBase: {
+          // Controls default (unchecked) color for the thumb
+          color: "aqua",
+        },
+        colorPrimary: {
+          "&.Mui-checked": {
+            // Controls checked color for the thumb
+            color: "fuchsia",
+          },
+        },
+        track: {
+          // Controls default (unchecked) color for the track
+          opacity: 0.3,
+          backgroundColor: "aqua",
+          ".Mui-checked.Mui-checked + &": {
+            // Controls checked color for the track
+            opacity: 0.6,
+            backgroundColor: "fuchsia",
+          },
+        },
+      },
+    },
+  },
+});
 
 export default function GPToggle(props: GPToggleProps) {
   const handleGP = (
@@ -24,33 +51,34 @@ export default function GPToggle(props: GPToggleProps) {
   ) => {
     let nextGP = isCoral ? "coral" : "algae";
     props.setGP(nextGP);
-    props.setScoreHeight(nextGP == "algae" ? "level2" : "level4");
     props.setReefTarget(10);
   };
 
   return (
-    <Box
-      sx={{
-        position: "absolute",
-        bottom: 30,
-        left: 3,
-        height: 120,
-        width: 350,
-        p: 0,
-        m: 0,
-      }}
-    >
-      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-        <Typography sx={{ pr: 8, fontSize: 60 }}>Algae</Typography>
-        <Switch
-          defaultChecked
-          color="error"
-          checked={props.gamepiece == "coral"}
-          onChange={handleGP}
-          sx={{ transform: "scale(5)", m: 40 }}
-        />
-        <Typography sx={{ pl: 8, fontSize: 60 }}>Coral</Typography>
-      </Stack>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          height: 120,
+          width: 700,
+        }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          <Typography sx={{ pr: 12, fontSize: 60 }}>A</Typography>
+          <Switch
+            defaultChecked
+            checked={props.gamepiece == "coral"}
+            onChange={handleGP}
+            sx={{
+              transform: "scale(6)",
+              m: 40,
+            }}
+          />
+          <Typography sx={{ pl: 12, fontSize: 60 }}>C</Typography>
+        </Stack>
+      </Box>
+    </ThemeProvider>
   );
 }

@@ -15,13 +15,15 @@ import {
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
 import ConnectionStatus from "./ConnectionStatus";
+import StationToggle from "./stationToggle";
 
 export default function App() {
   const nt4 = useNt4().nt4Provider;
 
   const [reefTarget, setReefTarget] = useEntry("/reefTarget", 10);
-  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 21);
-  const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "level4");
+  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
+  const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
+  const [algaeHeight, setAlgaeHeight] = useEntry("/algaeHeight", "level4");
   const [gamepiece, setGamepiece] = useEntry("/gpMode", "coral");
   const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "smart");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
@@ -35,47 +37,43 @@ export default function App() {
   return (
     <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
       <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{ m: 0, p: 0, position: "absolute", right: 0 }}
-        >
-          <Box fontWeight="900" sx={{ textAlign: "right", m: 0, p: 0 }}>
+        <Typography variant="h3" component="h1" sx={{ m: 0, pb: 6 }}>
+          <Box sx={{ fontSize: 60, textAlign: "center", m: 0, pb: 0 }}>
             SnakeScreen
           </Box>
         </Typography>
-        <Stack direction={"row"} spacing={0} sx={{ my: 0, pt: 2 }}>
-          <Stack direction={"column"} spacing={15} sx={{ px: 0, mx: 0 }}>
-            <ScoringHeight
-              height={scoreHeight}
-              setHeight={setScoreHeight}
-              gamepiece={gamepiece}
-            />
+        <Stack
+          direction={"row"}
+          spacing={20}
+          sx={{ my: 0, p: 0, justifyContent: "center" }}
+        >
+          <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
             <GPToggle
               gamepiece={gamepiece}
               setGP={setGamepiece}
-              scoreHeight={scoreHeight}
-              setScoreHeight={setScoreHeight}
               reefTarget={reefTarget}
               setReefTarget={setReefTarget}
+            />
+            <ScoringHeight
+              coralHeight={coralHeight}
+              setCoralHeight={setCoralHeight}
+              algaeHeight={algaeHeight}
+              setAlgaeHeight={setAlgaeHeight}
             />
           </Stack>
-
-          {["high", "mid"].includes(autonomy, 0) && (
-            <Reef
-              gamepiece={gamepiece}
-              reefTarget={reefTarget}
-              setReefTarget={setReefTarget}
-              intakeStation={intakeStation}
-              setIntakeStation={setIntakeStation}
+          <Stack direction={"column"} spacing={20} sx={{ px: 0, mx: 0 }}>
+            <StationToggle
+              station={intakeStation}
+              setStation={setIntakeStation}
             />
-          )}
-          <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
+            <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
+          </Stack>
+
+          <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
             <GPIndicator name=" Coral " value={hasCoral} />
             <GPIndicator name="Algae" value={hasAlgae} />
             <ConnectionStatus isConnected={isConnected} />
           </Stack>
-          <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
         </Stack>
       </Box>
     </Container>
