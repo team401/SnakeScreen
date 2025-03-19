@@ -16,7 +16,14 @@ export default function App() {
 
   const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
   const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
-  const [algaeHeight, setAlgaeHeight] = useEntry("/algaeHeight", "level4");
+  const [algaeScoreHeight, setAlgaeScoreHeight] = useEntry(
+    "/algaeScoreHeight",
+    "level4"
+  );
+  const [algaeIntakeHeight, setAlgaeIntakeHeight] = useEntry(
+    "/algaeIntakeHeight",
+    "level3"
+  );
   const [gamepiece, setGamepiece] = useEntry("/gpMode", "coral");
   const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "smart");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
@@ -28,9 +35,11 @@ export default function App() {
     if (conn) {
       setIntakeStation("left");
       setCoralHeight("level4");
-      setAlgaeHeight("level4");
+      setAlgaeScoreHeight("level4");
+      setAlgaeIntakeHeight("level4");
       setGamepiece("coral");
       setAutonomy("smart");
+      console.log("ran connect");
     }
   };
 
@@ -56,11 +65,17 @@ export default function App() {
             <ScoringHeight
               coralHeight={coralHeight}
               setCoralHeight={setCoralHeight}
-              algaeHeight={algaeHeight}
-              setAlgaeHeight={setAlgaeHeight}
+              algaeScoreHeight={algaeScoreHeight}
+              setAlgaeScoreHeight={setAlgaeScoreHeight}
+              algaeIntakeHeight={algaeIntakeHeight}
+              setAlgaeIntakeHeight={setAlgaeIntakeHeight}
             />
           </Stack>
-          <Stack direction={"column"} spacing={20} sx={{ px: 0, mx: 0 }}>
+          <Stack
+            direction={"column"}
+            spacing={20}
+            sx={{ px: 0, mx: 0, justifyContent: "space-around" }}
+          >
             <StationToggle
               station={intakeStation}
               setStation={setIntakeStation}
@@ -68,7 +83,11 @@ export default function App() {
             <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
           </Stack>
 
-          <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
+          <Stack
+            direction={"column"}
+            spacing={7}
+            sx={{ px: 0, mx: 0, justifyContent: "center" }}
+          >
             <GPIndicator name=" Coral " value={hasCoral} />
             <GPIndicator name="Algae" value={hasAlgae} />
             <ConnectionStatus isConnected={isConnected} />
