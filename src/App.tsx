@@ -2,16 +2,10 @@ import * as React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Reef from "./Reef";
 import ScoringHeight from "./ScoringHeight";
-import { Grid, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import GPToggle from "./GPToggle";
-import {
-  BooleanBox,
-  NT4Provider,
-  useEntry,
-  useNt4,
-} from "@frc-web-components/react";
+import { useEntry, useNt4 } from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
 import ConnectionStatus from "./ConnectionStatus";
