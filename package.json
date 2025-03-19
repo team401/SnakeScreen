@@ -2,6 +2,8 @@
   "name": "snakescreen",
   "version": "0.0.1",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -18,11 +20,18 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run app:build && npm run electron:build",
+    "app:build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron:start": "npm run app:build && npm run electron",
+    "electron:dir": "electron-builder --dir",
+    "electron:build": "electron-builder"
   },
   "devDependencies": {
+    "electron": "^35.0.2",
+    "electron-builder": "^25.1.8",
     "react-scripts": "latest"
   },
   "browserslist": {
@@ -36,5 +45,22 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "com.example.react-desktop",
+    "productName": "SnakeScreen",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": "nsis"
+    }
   }
 }
