@@ -12,8 +12,6 @@ import ConnectionStatus from "./ConnectionStatus";
 import StationToggle from "./stationToggle";
 
 export default function App() {
-  const nt4 = useNt4().nt4Provider;
-
   const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
   const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
   const [algaeScoreHeight, setAlgaeScoreHeight] = useEntry(
@@ -28,23 +26,23 @@ export default function App() {
   const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "smart");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
-  const [isConnected, setConnected] = React.useState(nt4.isConnected());
+  const [isConnected, setConnected] = React.useState(false);
 
-  const handleConnect = (conn: boolean) => {
-    setConnected(conn);
-    if (conn) {
-      setIntakeStation("right");
-      setCoralHeight("level4");
-      setAlgaeScoreHeight("level4");
-      setAlgaeIntakeHeight("level3");
-      setGamepiece("coral");
-      setAutonomy("smart");
-      console.log("ran connect");
-    }
-  };
+  // const handleConnect = (conn: boolean) => {
+  //   setConnected(conn);
+  //   if (conn) {
+  //     setIntakeStation("right");
+  //     setCoralHeight("level4");
+  //     setAlgaeScoreHeight("level4");
+  //     setAlgaeIntakeHeight("level3");
+  //     setGamepiece("coral");
+  //     setAutonomy("smart");
+  //     console.log("ran connect");
+  //   }
+  // };
 
   useNt4().nt4Provider.addConnectionListener((conn: boolean) => {
-    handleConnect(conn), true;
+    setConnected(conn), true;
   });
 
   return (
