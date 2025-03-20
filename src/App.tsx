@@ -36,7 +36,7 @@ export default function App() {
       setIntakeStation("left");
       setCoralHeight("level4");
       setAlgaeScoreHeight("level4");
-      setAlgaeIntakeHeight("level4");
+      setAlgaeIntakeHeight("level3");
       setGamepiece("coral");
       setAutonomy("smart");
       console.log("ran connect");
