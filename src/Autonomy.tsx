@@ -50,7 +50,6 @@ export default function Autonomy(props: autoProps) {
       <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
         <Typography sx={{ pr: 12, fontSize: 60 }}>🚫</Typography>
         <Switch
-          defaultChecked
           color="success"
           checked={props.autonomy === "smart"}
           onChange={handleChange}

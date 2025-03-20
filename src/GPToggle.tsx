@@ -65,7 +65,6 @@ export default function GPToggle(props: GPToggleProps) {
         <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Typography sx={{ pr: 12, fontSize: 60 }}>A</Typography>
           <Switch
-            defaultChecked
             checked={props.gamepiece == "coral"}
             onChange={handleGP}
             sx={{

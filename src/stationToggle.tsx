@@ -31,7 +31,6 @@ export default function StationToggle(props: StationToggleProps) {
       <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
         <Typography sx={{ pr: 12, fontSize: 60 }}>L</Typography>
         <Switch
-          defaultChecked
           color="error"
           checked={props.station === "right"}
           onChange={handleStation}
