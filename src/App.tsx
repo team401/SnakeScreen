@@ -33,7 +33,7 @@ export default function App() {
   const handleConnect = (conn: boolean) => {
     setConnected(conn);
     if (conn) {
-      setIntakeStation("left");
+      setIntakeStation("right");
       setCoralHeight("level4");
       setAlgaeScoreHeight("level4");
       setAlgaeIntakeHeight("level3");
