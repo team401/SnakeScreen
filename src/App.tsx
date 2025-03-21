@@ -2,64 +2,94 @@ import * as React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Reef from "./Reef";
 import ScoringHeight from "./ScoringHeight";
-import { Grid, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import GPToggle from "./GPToggle";
-import { BooleanBox, NT4Provider, useEntry } from "@frc-web-components/react";
+import { useEntry, useNt4 } from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
+import ConnectionStatus from "./ConnectionStatus";
+import StationToggle from "./stationToggle";
 
 export default function App() {
-  const [reefTarget, setReefTarget] = useEntry("/reefTarget", -1);
-  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", 21);
-  const [scoreHeight, setScoreHeight] = useEntry("/scoreHeight", "-1");
+  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
+  const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
+  const [algaeScoreHeight, setAlgaeScoreHeight] = useEntry(
+    "/algaeScoreHeight",
+    "level4"
+  );
+  const [algaeIntakeHeight, setAlgaeIntakeHeight] = useEntry(
+    "/algaeIntakeHeight",
+    "level3"
+  );
   const [gamepiece, setGamepiece] = useEntry("/gpMode", "coral");
-  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "mid");
+  const [autonomy, setAutonomy] = useEntry("/autonomyLevel", "smart");
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
+  const [isConnected, setConnected] = React.useState(false);
+
+  // const handleConnect = (conn: boolean) => {
+  //   setConnected(conn);
+  //   if (conn) {
+  //     setIntakeStation("right");
+  //     setCoralHeight("level4");
+  //     setAlgaeScoreHeight("level4");
+  //     setAlgaeIntakeHeight("level3");
+  //     setGamepiece("coral");
+  //     setAutonomy("smart");
+  //     console.log("ran connect");
+  //   }
+  // };
+
+  useNt4().nt4Provider.addConnectionListener((conn: boolean) => {
+    setConnected(conn), true;
+  });
 
   return (
     <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
       <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{ m: 0, p: 0, position: "absolute", right: 0 }}
-        >
-          <Box fontWeight="900" sx={{ textAlign: "right", m: 0, p: 0 }}>
+        <Typography variant="h3" component="h1" sx={{ m: 0, pb: 6 }}>
+          <Box sx={{ fontSize: 60, textAlign: "center", m: 0, pb: 0 }}>
             SnakeScreen
           </Box>
         </Typography>
-        <Stack direction={"row"} spacing={0} sx={{ my: 0, pt: 2 }}>
-          <Stack direction={"column"} spacing={15} sx={{ px: 0, mx: 0 }}>
+        <Stack
+          direction={"row"}
+          spacing={20}
+          sx={{ my: 0, p: 0, justifyContent: "center" }}
+        >
+          <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
+            <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
             <ScoringHeight
-              height={scoreHeight}
-              setHeight={setScoreHeight}
-              gamepiece={gamepiece}
+              coralHeight={coralHeight}
+              setCoralHeight={setCoralHeight}
+              algaeScoreHeight={algaeScoreHeight}
+              setAlgaeScoreHeight={setAlgaeScoreHeight}
+              algaeIntakeHeight={algaeIntakeHeight}
+              setAlgaeIntakeHeight={setAlgaeIntakeHeight}
             />
-            <GPToggle
-              gamepiece={gamepiece}
-              setGP={setGamepiece}
-              scoreHeight={scoreHeight}
-              setScoreHeight={setScoreHeight}
-              reefTarget={reefTarget}
-              setReefTarget={setReefTarget}
+          </Stack>
+          <Stack
+            direction={"column"}
+            spacing={20}
+            sx={{ px: 0, mx: 0, justifyContent: "space-around" }}
+          >
+            <StationToggle
+              station={intakeStation}
+              setStation={setIntakeStation}
             />
+            <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
           </Stack>
 
-          <Reef
-            gamepiece={gamepiece}
-            reefTarget={reefTarget}
-            setReefTarget={setReefTarget}
-            intakeStation={intakeStation}
-            setIntakeStation={setIntakeStation}
-          />
-          <Stack sx={{ position: "absolute", right: 1, top: 100 }}>
+          <Stack
+            direction={"column"}
+            spacing={7}
+            sx={{ px: 0, mx: 0, justifyContent: "center" }}
+          >
             <GPIndicator name=" Coral " value={hasCoral} />
             <GPIndicator name="Algae" value={hasAlgae} />
+            <ConnectionStatus isConnected={isConnected} />
           </Stack>
-          <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
         </Stack>
       </Box>
     </Container>

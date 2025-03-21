@@ -1,11 +1,12 @@
 import * as React from "react";
 import {
   Box,
+  Stack,
+  Switch,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useEntry } from "@frc-web-components/react";
 
 type autonomyLevels = {
   value: string;
@@ -19,63 +20,43 @@ type autoProps = {
 
 export default function Autonomy(props: autoProps) {
   const modes: autonomyLevels[] = [
-    { value: "high", label: "Full Auto" },
-    { value: "mid", label: "Teleop" },
-    { value: "low", label: "Manual" },
+    //{ value: "high", label: "Full" },
+    { value: "smart", label: "Smart" },
+    //{ value: "mid", label: "Mixed" },
+    { value: "low", label: "None" },
   ];
 
   const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    nextMode: string
+    event: React.ChangeEvent<HTMLInputElement>,
+    isRight: boolean
   ) => {
-    if (nextMode) {
-      props.setAutonomy(nextMode);
-    }
+    let newMode = isRight ? "smart" : "low";
+    props.setAutonomy(newMode);
   };
 
   return (
     <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
       sx={{
-        height: 290,
-        width: 200,
-        position: "absolute",
-        right: 5,
-        bottom: 1,
+        height: 120,
+        width: 400,
         m: 0,
-        p: 0,
       }}
     >
-      <Typography
-        variant="h4"
-        component="h1"
-        textAlign={"center"}
-        sx={{ m: 0 }}
-      >
-        Autonomy
-      </Typography>
-      <ToggleButtonGroup
-        orientation="vertical"
-        value={props.autonomy}
-        exclusive
-        onChange={handleChange}
-        sx={{ p: 0, m: 0 }}
-      >
-        {modes.map((mode) => (
-          <ToggleButton
-            key={mode.value}
-            value={mode.value}
-            sx={{ width: 200, height: 80, borderWidth: 2, border: "solid" }}
-            color="error"
-          >
-            <Typography
-              fontSize={70}
-              sx={{ px: 1, width: 200, textWrap: "nowrap" }}
-            >
-              {mode.label}
-            </Typography>
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+      <Typography sx={{ pb: 2, fontSize: 60 }}>Autonomy</Typography>
+      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+        <Typography sx={{ pr: 12, fontSize: 60 }}>🚫</Typography>
+        <Switch
+          color="success"
+          checked={props.autonomy === "smart"}
+          onChange={handleChange}
+          sx={{ transform: "scale(6)", m: 40 }}
+        />
+        <Typography sx={{ pl: 12, fontSize: 60 }}>🧠</Typography>
+      </Stack>
     </Box>
   );
 }

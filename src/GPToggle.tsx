@@ -1,76 +1,80 @@
 import * as React from "react";
 import {
   Box,
-  ToggleButton,
-  ToggleButtonGroup,
+  createTheme,
+  Stack,
+  Switch,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 
 type GPToggleProps = {
   gamepiece: string;
   setGP: Function;
-  scoreHeight: string;
-  setScoreHeight: Function;
-  reefTarget: number;
-  setReefTarget: Function;
 };
 
+const theme = createTheme({
+  components: {
+    MuiSwitch: {
+      styleOverrides: {
+        switchBase: {
+          // Controls default (unchecked) color for the thumb
+          color: "aqua",
+        },
+        colorPrimary: {
+          "&.Mui-checked": {
+            // Controls checked color for the thumb
+            color: "fuchsia",
+          },
+        },
+        track: {
+          // Controls default (unchecked) color for the track
+          opacity: 0.3,
+          backgroundColor: "aqua",
+          ".Mui-checked.Mui-checked + &": {
+            // Controls checked color for the track
+            opacity: 0.6,
+            backgroundColor: "fuchsia",
+          },
+        },
+      },
+    },
+  },
+});
+
 export default function GPToggle(props: GPToggleProps) {
-  const handleGP = (event: React.MouseEvent<HTMLElement>, nextGP: string) => {
-    if (nextGP) {
-      props.setGP(nextGP);
-      props.setScoreHeight("level1");
-      props.setReefTarget(-1);
-    }
+  const handleGP = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    isCoral: boolean
+  ) => {
+    let nextGP = isCoral ? "coral" : "algae";
+    props.setGP(nextGP);
   };
 
   return (
-    <Box
-      sx={{
-        height: 120,
-        width: 350,
-        p: 0,
-        m: 0,
-      }}
-    >
-      <ToggleButtonGroup
-        orientation="vertical"
-        value={props.gamepiece}
-        exclusive
-        onChange={handleGP}
-        sx={{ p: 0, m: 0 }}
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          height: 120,
+          width: 700,
+        }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
       >
-        <ToggleButton
-          value="coral"
-          sx={{
-            my: 0,
-            borderWidth: 2,
-            border: "solid",
-            height: 100,
-            width: 350,
-          }}
-          color="error"
-        >
-          <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            CORAL
-          </Typography>
-        </ToggleButton>
-        <ToggleButton
-          value="algae"
-          sx={{
-            my: 8,
-            borderWidth: 2,
-            border: "solid",
-            height: 100,
-            width: 350,
-          }}
-          color="error"
-        >
-          <Typography fontSize={100} sx={{ px: 1, textWrap: "nowrap" }}>
-            ALGAE
-          </Typography>
-        </ToggleButton>
-      </ToggleButtonGroup>
-    </Box>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          <Typography sx={{ pr: 12, fontSize: 60 }}>A</Typography>
+          <Switch
+            checked={props.gamepiece == "coral"}
+            onChange={handleGP}
+            sx={{
+              transform: "scale(6)",
+              m: 40,
+            }}
+          />
+          <Typography sx={{ pl: 12, fontSize: 60 }}>C</Typography>
+        </Stack>
+      </Box>
+    </ThemeProvider>
   );
 }
