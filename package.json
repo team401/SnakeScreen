@@ -1,6 +1,6 @@
 {
   "name": "snakescreen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "main": "public/electron.js",
   "homepage": ".",
@@ -47,7 +47,7 @@
     ]
   },
   "build": {
-    "appId": "com.example.react-desktop",
+    "appId": "org.team401.snakescreen",
     "productName": "SnakeScreen",
     "directories": {
       "output": "dist"

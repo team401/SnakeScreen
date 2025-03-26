@@ -14,11 +14,22 @@ import "@fontsource/roboto/700.css";
 const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement!);
 
-root.render(
-  <NT4Provider address="localhost">
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </NT4Provider>
-);
+function Index() {
+  const savedIP = localStorage.getItem("robotIP") || "10.4.1.2";
+  const [IP, setIP] = React.useState(savedIP);
+
+  React.useEffect(() => {
+    localStorage.setItem("robotIP", IP);
+  }, [IP]);
+
+  return (
+    <NT4Provider key={IP} address={IP}> {}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App IP={IP} setIP={setIP} />
+      </ThemeProvider>
+    </NT4Provider>
+  );
+}
+
+root.render(<Index />);
