@@ -15,7 +15,6 @@ const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement!);
 
 function Index() {
-
   const savedIP = localStorage.getItem("robotIP") || "10.4.1.2";
   const [IP, setIP] = React.useState(savedIP);
 
@@ -24,7 +23,7 @@ function Index() {
   }, [IP]);
 
   return (
-    <NT4Provider address={IP}>
+    <NT4Provider key={IP} address={IP}> {}
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App IP={IP} setIP={setIP} />

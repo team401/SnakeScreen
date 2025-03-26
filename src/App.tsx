@@ -27,14 +27,22 @@ export default function App({ IP, setIP }: IPprops) {
   const [hasCoral, setHasCoral] = useEntry("/hasCoral", false);
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
   const [isConnected, setConnected] = React.useState(false);
+  const [isConnecting, setIsConnecting] = React.useState(false);
 
   const nt4 = useNt4();
 
   React.useEffect(() => {
-    nt4.nt4Provider.addConnectionListener((conn: boolean) => {
-      setConnected(conn);
-    }, true);
-  }, [nt4]);
+    setIsConnecting(true);
+
+    const timeout = setTimeout(() => {
+      nt4.nt4Provider.addConnectionListener((conn: boolean) => {
+        setConnected(conn);
+        setIsConnecting(false);
+      }, true);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [IP, nt4]);
 
   return (
     <Container sx={{ pl: 1 }} maxWidth={false} disableGutters>
@@ -44,11 +52,7 @@ export default function App({ IP, setIP }: IPprops) {
             SnakeScreen
           </Box>
         </Typography>
-        <Stack
-          direction={"row"}
-          spacing={20}
-          sx={{ my: 0, p: 0, justifyContent: "center" }}
-        >
+        <Stack direction={"row"} spacing={20} sx={{ my: 0, p: 0, justifyContent: "center" }}>
           <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
             <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
             <ScoringHeight
@@ -60,29 +64,18 @@ export default function App({ IP, setIP }: IPprops) {
               setAlgaeIntakeHeight={setAlgaeIntakeHeight}
             />
           </Stack>
-          <Stack
-            direction={"column"}
-            spacing={20}
-            sx={{ px: 0, mx: 0, justifyContent: "space-around" }}
-          >
-            <StationToggle
-              station={intakeStation}
-              setStation={setIntakeStation}
-            />
+          <Stack direction={"column"} spacing={20} sx={{ px: 0, mx: 0, justifyContent: "space-around" }}>
+            <StationToggle station={intakeStation} setStation={setIntakeStation} />
             <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
           </Stack>
-          <Stack
-            direction={"column"}
-            spacing={7}
-            sx={{ px: 0, mx: 0, justifyContent: "center" }}
-          >
+          <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0, justifyContent: "center" }}>
             <GPIndicator name="Coral" value={hasCoral} />
             <GPIndicator name="Algae" value={hasAlgae} />
-            <ConnectionStatus isConnected={isConnected} />
+            <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
           </Stack>
         </Stack>
       </Box>
-      <Settings IP={IP} setIP={setIP} /> {}
+      <Settings IP={IP} setIP={setIP} />
     </Container>
   );
 }

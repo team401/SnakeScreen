@@ -12,11 +12,20 @@ export default function Settings({ IP, setIP }: SettingsProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleButtonClick = (newIP: string) => {
-    setIP(newIP);
-    setTimeout(() => {
-      window.location.reload();
-    }, 200); 
+    if (IP !== newIP) {
+      setIP(newIP);
+    }
   };
+
+  // Watch for IP change, then reload
+  React.useEffect(() => {
+    if (IP !== localStorage.getItem("robotIP")) {
+      localStorage.setItem("robotIP", IP);
+      setTimeout(() => {
+        window.location.reload();
+      }, 300); // Slight delay ensures the state is updated before reload
+    }
+  }, [IP]);
 
   return (
     <>
@@ -74,8 +83,12 @@ export default function Settings({ IP, setIP }: SettingsProps) {
             sx={{ mb: 2, mt: 2, scale: 1.1 }}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Button onClick={() => handleButtonClick("10.4.1.2")} sx={{ scale: 2 }}>ROBOT</Button>
-            <Button onClick={() => handleButtonClick("localhost")} sx={{ scale: 2 }}>SIM</Button>
+            <Button onClick={() => handleButtonClick("10.4.1.2")} sx={{ scale: 2 }}>
+              ROBOT
+            </Button>
+            <Button onClick={() => handleButtonClick("localhost")} sx={{ scale: 2 }}>
+              SIM
+            </Button>
           </Box>
         </Box>
       </Modal>
