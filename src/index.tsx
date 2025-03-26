@@ -15,7 +15,13 @@ const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement!);
 
 function Index() {
-  const [IP, setIP] = React.useState("localhost");
+
+  const savedIP = localStorage.getItem("robotIP") || "10.4.1.2";
+  const [IP, setIP] = React.useState(savedIP);
+
+  React.useEffect(() => {
+    localStorage.setItem("robotIP", IP);
+  }, [IP]);
 
   return (
     <NT4Provider address={IP}>

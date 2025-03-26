@@ -2,7 +2,6 @@ import * as React from "react";
 import { Box, IconButton, Modal, TextField, Button, Typography } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
-import { Scale } from "@mui/icons-material";
 
 interface SettingsProps {
   IP: string;
@@ -14,6 +13,9 @@ export default function Settings({ IP, setIP }: SettingsProps) {
 
   const handleButtonClick = (newIP: string) => {
     setIP(newIP);
+    setTimeout(() => {
+      window.location.reload();
+    }, 200); 
   };
 
   return (
@@ -59,7 +61,6 @@ export default function Settings({ IP, setIP }: SettingsProps) {
             <CloseIcon />
           </IconButton>
 
-          {/* Text label above the modal */}
           <Typography variant="h5" sx={{ mb: 2, textAlign: "left" }}>
             Settings 
           </Typography>
@@ -70,12 +71,11 @@ export default function Settings({ IP, setIP }: SettingsProps) {
             fullWidth
             value={IP}
             onChange={(changeIP) => setIP(changeIP.target.value)}
-            sx={{ mb: 2, mt: 2 , scale: 1.1}}
-            defaultValue={"10.4.1.2"}
+            sx={{ mb: 2, mt: 2, scale: 1.1 }}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Button onClick={() => handleButtonClick("10.4.1.2")} sx={{scale:2}}>ROBOT</Button>
-            <Button onClick={() => handleButtonClick("localhost")} sx={{scale:2}}>SIM</Button>
+            <Button onClick={() => handleButtonClick("10.4.1.2")} sx={{ scale: 2 }}>ROBOT</Button>
+            <Button onClick={() => handleButtonClick("localhost")} sx={{ scale: 2 }}>SIM</Button>
           </Box>
         </Box>
       </Modal>
