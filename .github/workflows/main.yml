@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main  # Runs only when changes are merged into main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Electron-builder requires Windows for .exe builds
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 23
+
+      - name:  Install dependencies
+        run: npm install --force
+
+      - name: Build Snakescreen
+        run: npm run build 
+
+      - name: Build Electron App
+        run: npm run electron:build  
+
+      - name:  Move executable to releases folder
+        run: |
+          mkdir output
+          if exist .\dist\SnakeScreen-Setup.exe move .\dist\SnakeScreen-Setup.exe output\SnakeScreen-Setup.exe
+          if not exist .\dist\SnakeScreen-Setup.exe exit 1 
+
+      - name:  Upload executable as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SnakeScreen-Setup
+          path: output/SnakeScreen-Setup.exe
+
+  release:
+    needs: build  
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download built executable
+        uses: actions/download-artifact@v3
+        with:
+          name: SnakeScreen-Setup
+          path: output/
+
+      - name:  Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          files: output/SnakeScreen-Setup.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
