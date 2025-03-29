@@ -6,10 +6,24 @@ import CloseIcon from "@mui/icons-material/Close";
 interface SettingsProps {
   IP: string;
   setIP: React.Dispatch<React.SetStateAction<string>>;
+  setBackgroundMode: React.Dispatch<React.SetStateAction<"static" | "video">>;
+  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;  // Prop to control fullscreen state
 }
 
-export default function Settings({ IP, setIP }: SettingsProps) {
+export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen }: SettingsProps) {
   const [open, setOpen] = React.useState(false);
+
+  // Handle Fullscreen toggle
+  const handleFullscreenToggle = () => {
+    const elem = document.documentElement;
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      setFullscreen(false);
+    } else {
+      elem.requestFullscreen();
+      setFullscreen(true);
+    }
+  };
 
   const handleButtonClick = (newIP: string) => {
     if (IP !== newIP) {
@@ -71,7 +85,7 @@ export default function Settings({ IP, setIP }: SettingsProps) {
           </IconButton>
 
           <Typography variant="h5" sx={{ mb: 2, textAlign: "left" }}>
-            Settings 
+            Settings
           </Typography>
 
           <TextField
@@ -82,12 +96,45 @@ export default function Settings({ IP, setIP }: SettingsProps) {
             onChange={(changeIP) => setIP(changeIP.target.value)}
             sx={{ mb: 2, mt: 2, scale: 1.1 }}
           />
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Button onClick={() => handleButtonClick("10.4.1.2")} sx={{ scale: 2 }}>
               ROBOT
             </Button>
             <Button onClick={() => handleButtonClick("localhost")} sx={{ scale: 2 }}>
               SIM
+            </Button>
+          </Box>
+
+          <Typography variant="h6" sx={{ mt: 3, mb: 1, textAlign: "left" }}>
+            Background Settings
+          </Typography>
+
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              onClick={() => setBackgroundMode("static")}
+              sx={{ scale: 1.5, bgcolor: "lightgray", "&:hover": { bgcolor: "gray" } }}
+            >
+              Locked In Mode
+            </Button>
+            <Button
+              onClick={() => setBackgroundMode("video")}
+              sx={{ scale: 1.5, bgcolor: "lightblue", "&:hover": { bgcolor: "blue" } }}
+            >
+              Geeked Mode
+            </Button>
+          </Box>
+
+          {/* Fullscreen button */}
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+            <Button
+              onClick={handleFullscreenToggle}
+              sx={{
+                scale: 1.5,
+                bgcolor: "lightgreen",
+                "&:hover": { bgcolor: "green" },
+              }}
+            >
+              Toggle Fullscreen
             </Button>
           </Box>
         </Box>
