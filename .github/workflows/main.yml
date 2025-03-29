@@ -1,5 +1,8 @@
 name: CI
 
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 on:
   push:
     branches:
@@ -30,17 +33,11 @@ jobs:
       - name: Build Electron App
         run: npm run electron:build  
 
-      - name:  Move executable to releases folder
-        run: |
-          mkdir output
-          if exist .\dist\SnakeScreen-Setup.exe move .\dist\SnakeScreen-Setup.exe output\SnakeScreen-Setup.exe
-          if not exist .\dist\SnakeScreen-Setup.exe exit 1 
-
       - name:  Upload executable as an artifact
         uses: actions/upload-artifact@v4
         with:
           name: SnakeScreen-Setup
-          path: output/SnakeScreen-Setup.exe
+          path: dist/SnakeScreen-Setup.exe
 
   release:
     needs: build  
@@ -55,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: SnakeScreen-Setup
-          path: output/
+          path: dist/
 
       - name:  Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -63,4 +60,4 @@ jobs:
           tag_name: v1.0.${{ github.run_number }}
           files: output/SnakeScreen-Setup.exe
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
