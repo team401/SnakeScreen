@@ -4,14 +4,17 @@ on:
   push:
     branches:
       - main  # Runs only when changes are merged into main
-
+  workflow_dispatch:
+    
 jobs:
   build:
     runs-on: windows-latest  # Electron-builder requires Windows for .exe builds
 
+
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
