@@ -57,6 +57,12 @@
     "files": [
       "build/**/*"
     ],
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
     "mac": {
       "category": "public.app-category.utilities"
     },
