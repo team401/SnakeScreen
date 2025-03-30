@@ -30,14 +30,16 @@ jobs:
       - name: Build Snakescreen
         run: npm run build 
 
-      - name: Build Electron App
-        run: npm run electron:build  
+      - name: Build Electron App and publish
+        env:
+            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run publish
 
-      - name:  Upload executable as an artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: SnakeScreen-Setup
-          path: dist/SnakeScreen-Setup.exe
+      # - name:  Upload executable as an artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: SnakeScreen-Setup
+      #     path: dist/SnakeScreen-Setup.exe
 
   release:
     needs: build  
@@ -48,17 +50,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download built executable
-        uses: actions/download-artifact@v4
-        with:
-          name: SnakeScreen-Setup
-          path: dist/
+      # - name: Download built executable
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: SnakeScreen-Setup
+      #     path: dist/
       
       - name: Get Version
         id: getVersion
         shell: bash
         run: |
-          content=`cat ./package.json`
+          content=`cat package.json`
           # the following lines are required for multiline json
           content="$(content//'%'/'%25')"
           content="$(content//$'\n'/'%0A')"
@@ -70,6 +72,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ fromJson(steps.getVersion.outputs.packageJson).version}}
-          files: dist/SnakeScreen-Setup.exe
+          # files: dist/SnakeScreen-Setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
