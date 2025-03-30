@@ -1,13 +1,26 @@
 const { dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
+function hostAvailable(url) {
+    var req = new XMLHttpRequest();
+    req.open('HEAD', url, false);
+    req.send();
+    return req.status!=404;
+}
 
 autoUpdater.autoDownload = false;
 
 autoUpdater.on('error', (error) => {
     let message = (error == null) ? "unknown" : (error.stack || error).toString();
-    message = error.name;
-    dialog.showErrorBox('Error: ', message);
+    if (hostAvailable("https://github.com")){
+        dialog.showErrorBox('Error: ', message);
+    }else{
+        dialog.showMessageBox({
+            type: "none",
+            title: "Error: ",
+            message: message
+        });
+    }
 });
 
 autoUpdater.on('update-available', () => {
