@@ -48,6 +48,7 @@ jobs:
 
     steps:
       - name: Checkout code
+        shell: bash
         uses: actions/checkout@v3
 
       # - name: Download built executable
@@ -69,6 +70,7 @@ jobs:
           echo "::set-output name=packageJson::$content"
 
       - name:  Create GitHub Release
+        shell: bash
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ fromJson(steps.getVersion.outputs.packageJson).version}}
