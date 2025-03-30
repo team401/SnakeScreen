@@ -13,26 +13,24 @@ jobs:
   build:
     runs-on: windows-latest  # Electron-builder requires Windows for .exe builds
 
-
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 
         uses: actions/setup-node@v4
         with:
           node-version: 23
 
-      - name:  Install dependencies
+      - name:  Install dependencies 
         run: npm install --force
 
-      - name: Build Snakescreen
+      - name: Build Snakescreen               #Builds react app
         run: npm run build 
 
-      - name: Build Electron App and publish
+      - name: Build Electron App and publish  #Builds the electron app then publishes to github releases
         env:
-            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+            GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npm run publish
 
 
@@ -40,31 +38,31 @@ jobs:
 # Keeping incase we want to use seperate jobs
 
 
-      # - name:  Upload executable as an artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: SnakeScreen-Setup
-      #     path: dist/SnakeScreen-Setup.exe
-
+  #     - name:  Upload executable as an artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: SnakeScreen-Setup
+  #         path: dist/SnakeScreen-Setup.exe
+  #
   # release:
   #   needs: build  
   #   runs-on: windows-latest
   #   # if: github.ref == 'refs/heads/main'
-
+  #
   #   steps:
   #     - name: Checkout code
   #       uses: actions/checkout@v3
-
-  #     # - name: Download built executable
-  #     #   uses: actions/download-artifact@v4
-  #     #   with:
-  #     #     name: SnakeScreen-Setup
-  #     #     path: dist/
-      
+  #
+  #     - name: Download built executable
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: SnakeScreen-Setup
+  #         path: dist/
+  #   
   #     - name: package.json info
   #       id: info
   #       uses: jaywcjlove/github-action-package@main
-
+  #
   #     - name:  Create GitHub Release
   #       uses: softprops/action-gh-release@v2
   #       with:

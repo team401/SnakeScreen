@@ -1,6 +1,6 @@
 {
   "name": "snakescreen",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "private": true,
   "main": "public/electron.js",
   "homepage": ".",
