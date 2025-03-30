@@ -1,6 +1,6 @@
 {
   "name": "snakescreen",
-  "version": "1.0.16",
+  "version": "0.0.2",
   "private": true,
   "main": "public/electron.js",
   "homepage": ".",
@@ -14,7 +14,6 @@
     "@types/estree": "^1.0.6",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
-    "electron-updater": "^6.6.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-scripts": "5.0.1"
@@ -28,9 +27,7 @@
     "electron": "electron .",
     "electron:start": "npm run app:build && npm run electron",
     "electron:dir": "electron-builder --dir",
-    "electron:build": "electron-builder",
-    "publish": "electron-builder -p always",
-    "build&publish": "npm run build && npm run publish"
+    "electron:build": "electron-builder"
   },
   "devDependencies": {
     "electron": "^35.0.2",
@@ -57,12 +54,6 @@
     },
     "files": [
       "build/**/*"
-    ],
-    "publish": [
-      {
-        "provider": "github",
-        "releaseType": "release"
-      }
     ],
     "mac": {
       "category": "public.app-category.utilities"
