@@ -1,6 +1,7 @@
 const { dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
+
 function hostAvailable(url) {
     var req = new XMLHttpRequest();
     req.open('HEAD', url, false);
