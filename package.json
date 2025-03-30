@@ -29,7 +29,8 @@
     "electron:start": "npm run app:build && npm run electron",
     "electron:dir": "electron-builder --dir",
     "electron:build": "electron-builder",
-    "publish": "npm run app:build && electron-builder -p always"
+    "publish": "electron-builder -p always",
+    "build&publish": "npm run build && npm run publish"
   },
   "devDependencies": {
     "electron": "^35.0.2",
