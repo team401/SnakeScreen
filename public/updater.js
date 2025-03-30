@@ -34,7 +34,7 @@ autoUpdater.on('update-not-available', () => {
 autoUpdater.on('update-downloaded', () => {
     dialog.showMessageBox({
         title: 'Installed Updates',
-        message: 'Updates downloaded, apllication will quit for update...'
+        message: 'Updates downloaded, application will quit to apply changes...'
     }).then(() => {
         setImmediate(() => autoUpdater.quitAndInstall());
     });
