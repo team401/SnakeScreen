@@ -48,7 +48,6 @@ jobs:
 
     steps:
       - name: Checkout code
-        shell: bash
         uses: actions/checkout@v3
 
       # - name: Download built executable
@@ -57,23 +56,14 @@ jobs:
       #     name: SnakeScreen-Setup
       #     path: dist/
       
-      - name: Get Version
-        id: getVersion
-        shell: bash
-        run: |
-          content=`cat package.json`
-          # the following lines are required for multiline json
-          content="$(content//'%'/'%25')"
-          content="$(content//$'\n'/'%0A')"
-          content="$(content//$'\r'/'%0D')"
-          #
-          echo "::set-output name=packageJson::$content"
+      - name: package.json info
+        id: info
+        uses: jaywcjlove/github-action-package@main
 
       - name:  Create GitHub Release
-        shell: bash
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.${{ fromJson(steps.getVersion.outputs.packageJson).version}}
+          tag_name: ${{ steps.info.outputs.version }}
           # files: dist/SnakeScreen-Setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
