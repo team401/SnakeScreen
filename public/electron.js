@@ -3,7 +3,6 @@ const { checkForUpdates } = require('./updater');
 const path = require('path');
 
 let mainWindow;
-checkForUpdates();
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -16,7 +15,9 @@ function createWindow() {
     });
 
     mainWindow.loadFile('./build/index.html');
-    
+
+    checkForUpdates();
+
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
