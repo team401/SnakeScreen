@@ -30,7 +30,7 @@ export default function App({ IP, setIP }: IPprops) {
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [backgroundMode, setBackgroundMode] = React.useState<"static" | "video">("static");
   const [isFullscreen, setFullscreen] = React.useState(false);
-  const [flipSides, setFlipSides] = React.useState(false); // Flip Sides Toggle
+  const [flipSides, setFlipSides] = React.useState(false); 
 
   const nt4 = useNt4();
 
@@ -49,7 +49,7 @@ export default function App({ IP, setIP }: IPprops) {
 
   return (
     <Box sx={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
-      {/* Only show the repeating background image in Geeked Mode */}
+      {}
       {backgroundMode === "video" && (
         <Box
           sx={{
@@ -61,15 +61,15 @@ export default function App({ IP, setIP }: IPprops) {
             backgroundImage: 'url("/background.png")',
             backgroundSize: "150px 300px",
             backgroundRepeat: "repeat",
-            zIndex: -2, // Keep it under the video
+            zIndex: -2, 
           }}
         />
       )}
 
-      {/* Video Background (Geeked Mode) */}
+      {}
       {backgroundMode === "video" && (
         <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", zIndex: -1 }}>
-          {/* Left Video */}
+          {}
           <Box sx={{ flex: 1, position: "relative", overflow: "hidden" }}>
             <video
               autoPlay
@@ -91,7 +91,7 @@ export default function App({ IP, setIP }: IPprops) {
             </video>
           </Box>
 
-          {/* Right Video */}
+          {}
           <Box sx={{ flex: 1, position: "relative", overflow: "hidden" }}>
             <video
               autoPlay
@@ -115,12 +115,12 @@ export default function App({ IP, setIP }: IPprops) {
         </Box>
       )}
 
-      {/* Static Background Mode */}
+      {}
       {backgroundMode === "static" && (
         <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "white", zIndex: -1 }} />
       )}
 
-      {/* Main Content */}
+      {}
       <Container sx={{ position: "relative", pl: 1, zIndex: 1 }} maxWidth={false} disableGutters>
         <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
           <Typography variant="h3" component="h1" sx={{ m: 0, pb: 6 }}>
@@ -178,7 +178,7 @@ export default function App({ IP, setIP }: IPprops) {
         </Box>
       </Container>
 
-      {/* Settings Component */}
+      {}
       <Settings IP={IP} setIP={setIP} setBackgroundMode={setBackgroundMode} setFullscreen={setFullscreen} flipSides={flipSides} setFlipSides={setFlipSides} />
     </Box>
   );
