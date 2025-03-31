@@ -18,7 +18,7 @@ interface IPprops {
 }
 
 export default function App({ IP, setIP }: IPprops) {
-  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
+  //const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
   const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
   const [algaeScoreHeight, setAlgaeScoreHeight] = useEntry("/algaeScoreHeight", "level4");
   const [algaeIntakeHeight, setAlgaeIntakeHeight] = useEntry("/algaeIntakeHeight", "level3");
@@ -135,7 +135,7 @@ export default function App({ IP, setIP }: IPprops) {
                   <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
                 </Stack>
                 <Stack direction={"column"} spacing={20}>
-                  <StationToggle station={intakeStation} setStation={setIntakeStation} />
+                 {/* <StationToggle station={intakeStation} setStation={setIntakeStation} /> */}
                   <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
                 </Stack>
                 <Stack direction={"column"} spacing={7}>
@@ -164,7 +164,7 @@ export default function App({ IP, setIP }: IPprops) {
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={20}>
-                  <StationToggle station={intakeStation} setStation={setIntakeStation} />
+                  {/* <StationToggle station={intakeStation} setStation={setIntakeStation} /> */}
                   <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
                 </Stack>
                 <Stack direction={"column"} spacing={7}>
