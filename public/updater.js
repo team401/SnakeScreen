@@ -5,7 +5,12 @@ const { autoUpdater } = require('electron-updater');
 autoUpdater.autoDownload = false;
 
 autoUpdater.on('error', (error) => {
-    dialog.showErrorBox('Error: ', (error == null) ? "unknown" : (error.stack || error).toString());
+    let message = (error == null) ? "unknown" : (error.stack || error).toString();
+    dialog.showMessageBox({
+        type: "info",
+        title: "Error: ",
+        message: message
+    });
 });
 
 autoUpdater.on('update-available', () => {

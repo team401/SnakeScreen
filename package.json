@@ -1,6 +1,6 @@
 {
   "name": "snakescreen",
-  "version": "1.0.16",
+  "version": "1.0.19",
   "private": true,
   "main": "public/electron.js",
   "homepage": ".",
@@ -30,7 +30,7 @@
     "electron:dir": "electron-builder --dir",
     "electron:build": "electron-builder",
     "publish": "electron-builder -p always",
-    "build&publish": "npm run build && npm run publish"
+    "build-publish": "npm run build && npm run publish"
   },
   "devDependencies": {
     "electron": "^35.0.2",
