@@ -9,7 +9,6 @@ import { useEntry, useNt4 } from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
 import ConnectionStatus from "./ConnectionStatus";
-import StationToggle from "./stationToggle";
 import Settings from "./Settings";
 
 interface IPprops {
@@ -18,7 +17,6 @@ interface IPprops {
 }
 
 export default function App({ IP, setIP }: IPprops) {
-  const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
   const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
   const [algaeScoreHeight, setAlgaeScoreHeight] = useEntry("/algaeScoreHeight", "level4");
   const [algaeIntakeHeight, setAlgaeIntakeHeight] = useEntry("/algaeIntakeHeight", "level3");
@@ -28,8 +26,9 @@ export default function App({ IP, setIP }: IPprops) {
   const [hasAlgae, setHasAlgae] = useEntry("/hasAlgae", false);
   const [isConnected, setConnected] = React.useState(false);
   const [isConnecting, setIsConnecting] = React.useState(false);
-  const [backgroundMode, setBackgroundMode] = React.useState<"static" | "video">("static"); 
-  const [isFullscreen, setFullscreen] = React.useState(false); 
+  const [backgroundMode, setBackgroundMode] = React.useState<"static" | "video">("static");
+  const [isFullscreen, setFullscreen] = React.useState(false);
+  const [flipSides, setFlipSides] = React.useState(true); 
 
   const nt4 = useNt4();
 
@@ -48,31 +47,7 @@ export default function App({ IP, setIP }: IPprops) {
 
   return (
     <Box sx={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
-      {/* Video Background */}
       {backgroundMode === "video" && (
-       <video
-       autoPlay
-       loop
-       muted
-       playsInline
-       style={{
-         position: "absolute",
-         top: "50%",
-         left: "50%",
-         width: "auto",
-         height: "100%", // Make it fit height-wise
-         transform: "translate(-50%, -50%)", // Center the video
-         objectFit: "cover", // Cover the screen without black bars
-         zIndex: -1,
-       }}
-     >
-       <source src="./background.mp4" type="video/mp4" />
-       Your browser does not support the video tag.
-     </video>
-      )}
-
-      {/* Static White Background */}
-      {backgroundMode === "static" && (
         <Box
           sx={{
             position: "absolute",
@@ -80,22 +55,85 @@ export default function App({ IP, setIP }: IPprops) {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "white",
-            zIndex: -1,
+            backgroundImage: 'url("/background.png")',
+            backgroundSize: "150px 300px",
+            backgroundRepeat: "repeat",
+            zIndex: -2, 
           }}
         />
       )}
+ {}
+      {backgroundMode === "video" && (
+        <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", zIndex: -1 }}>
+          {}
+          <Box sx={{ flex: 1, position: "relative", overflow: "hidden" }}>
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                width: "auto",
+                height: "100%",
+                transform: "translate(-50%, -50%)",
+                objectFit: "cover",
+              }}
+            >
+              <source src="/background1.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </Box>
 
-      {/* Main Content */}
+          {}
+          <Box sx={{ flex: 1, position: "relative", overflow: "hidden" }}>
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                width: "auto",
+                height: "100%",
+                transform: "translate(-50%, -50%)",
+                objectFit: "cover",
+              }}
+            >
+              <source src="/background2.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </Box>
+        </Box>
+      )}
+
+      {}
+      {backgroundMode === "static" && (
+        <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "white", zIndex: -1 }} />
+      )}
+
       <Container sx={{ position: "relative", pl: 1, zIndex: 1 }} maxWidth={false} disableGutters>
         <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
           <Typography variant="h3" component="h1" sx={{ m: 0, pb: 6 }}>
-            <Box sx={{ fontSize: 60, textAlign: "center", m: 0, pb: 0 }}>
-              SnakeScreen
-            </Box>
+            <Box sx={{ fontSize: 60, textAlign: "center", m: 0, pb: 0 }}>SnakeScreen</Box>
           </Typography>
           <Stack direction={"row"} spacing={20} sx={{ my: 0, p: 0, justifyContent: "center" }}>
-            <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0 }}>
+            {/* Adjusted positioning for ScoringHeight */}
+            <Stack
+              direction={"column"}
+              spacing={7}
+              sx={{
+                alignItems: "flex-start",
+                justifyContent: "center",
+                position: "relative",
+                top: "50px", 
+                left: "200px", 
+              }}
+            >
               <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
               <ScoringHeight
                 coralHeight={coralHeight}
@@ -104,13 +142,25 @@ export default function App({ IP, setIP }: IPprops) {
                 setAlgaeScoreHeight={setAlgaeScoreHeight}
                 algaeIntakeHeight={algaeIntakeHeight}
                 setAlgaeIntakeHeight={setAlgaeIntakeHeight}
+                flipSides={!flipSides} 
               />
             </Stack>
-            <Stack direction={"column"} spacing={20} sx={{ px: 0, mx: 0, justifyContent: "space-around" }}>
-              <StationToggle station={intakeStation} setStation={setIntakeStation} />
+
+            <Stack direction={"column"} spacing={20}>
               <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
             </Stack>
-            <Stack direction={"column"} spacing={7} sx={{ px: 0, mx: 0, justifyContent: "center" }}>
+
+            {}
+            <Stack
+              direction={"column"}
+              spacing={7}
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                top: "50px"
+              }}
+            >
               <GPIndicator name="Coral" value={hasCoral} />
               <GPIndicator name="Algae" value={hasAlgae} />
               <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
@@ -119,8 +169,7 @@ export default function App({ IP, setIP }: IPprops) {
         </Box>
       </Container>
 
-      {/* Settings Component */}
-      <Settings IP={IP} setIP={setIP} setBackgroundMode={setBackgroundMode} setFullscreen={setFullscreen}  />
+      <Settings IP={IP} setIP={setIP} setBackgroundMode={setBackgroundMode} setFullscreen={setFullscreen} flipSides={flipSides} setFlipSides={setFlipSides} />
     </Box>
   );
 }

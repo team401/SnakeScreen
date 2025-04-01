@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, IconButton, Modal, TextField, Button, Typography } from "@mui/material";
+import { Box, IconButton, Modal, TextField, Button, Typography, Switch, FormControlLabel } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -7,20 +7,20 @@ interface SettingsProps {
   IP: string;
   setIP: React.Dispatch<React.SetStateAction<string>>;
   setBackgroundMode: React.Dispatch<React.SetStateAction<"static" | "video">>;
-  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;  // Prop to control fullscreen state
+  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  flipSides: boolean;
+  setFlipSides: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen }: SettingsProps) {
+export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, flipSides, setFlipSides }: SettingsProps) {
   const [open, setOpen] = React.useState(false);
 
-  // Handle Fullscreen toggle
   const handleFullscreenToggle = () => {
-    const elem = document.documentElement;
     if (document.fullscreenElement) {
       document.exitFullscreen();
       setFullscreen(false);
     } else {
-      elem.requestFullscreen();
+      document.documentElement.requestFullscreen();
       setFullscreen(true);
     }
   };
@@ -37,7 +37,7 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen }
       localStorage.setItem("robotIP", IP);
       setTimeout(() => {
         window.location.reload();
-      }, 300); // Slight delay ensures the state is updated before reload
+      }, 300);
     }
   }, [IP]);
 
@@ -49,8 +49,8 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen }
           position: "fixed",
           bottom: 16,
           right: 16,
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
-          "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.2)" },
+          backgroundColor: "rgb(255, 255, 255)",
+          "&:hover": { backgroundColor: "rgb(187, 187, 187)" },
         }}
       >
         <SettingsIcon />
@@ -63,7 +63,7 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen }
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 500,
-            height: 500,
+            height: 550,
             bgcolor: "white",
             boxShadow: 24,
             p: 4,
@@ -124,7 +124,12 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen }
             </Button>
           </Box>
 
-          {/* Fullscreen button */}
+          <Typography variant="h6" sx={{ mt: 3, mb: 1, textAlign: "left" }}>
+            Display Settings
+          </Typography>
+
+          <FormControlLabel control={<Switch checked={flipSides} onChange={(e) => setFlipSides(e.target.checked)} />} label="sigmalucinda locked in mode" />
+
           <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
             <Button
               onClick={handleFullscreenToggle}
