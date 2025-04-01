@@ -28,7 +28,7 @@ export default function App({ IP, setIP }: IPprops) {
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [backgroundMode, setBackgroundMode] = React.useState<"static" | "video">("static");
   const [isFullscreen, setFullscreen] = React.useState(false);
-  const [flipSides, setFlipSides] = React.useState(false); 
+  const [flipSides, setFlipSides] = React.useState(true); 
 
   const nt4 = useNt4();
 
@@ -130,8 +130,8 @@ export default function App({ IP, setIP }: IPprops) {
                 alignItems: "flex-start",
                 justifyContent: "center",
                 position: "relative",
-                top: "50px", // Moves it further down
-                left: "200px", // Moves it further left
+                top: "50px", 
+                left: "200px", 
               }}
             >
               <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
@@ -142,7 +142,7 @@ export default function App({ IP, setIP }: IPprops) {
                 setAlgaeScoreHeight={setAlgaeScoreHeight}
                 algaeIntakeHeight={algaeIntakeHeight}
                 setAlgaeIntakeHeight={setAlgaeIntakeHeight}
-                flipSides={flipSides} 
+                flipSides={!flipSides} 
               />
             </Stack>
 
@@ -150,7 +150,7 @@ export default function App({ IP, setIP }: IPprops) {
               <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
             </Stack>
 
-            {/* Centered ConnectionStatus and GPIndicator vertically */}
+            {}
             <Stack
               direction={"column"}
               spacing={7}
@@ -158,7 +158,7 @@ export default function App({ IP, setIP }: IPprops) {
                 alignItems: "center",
                 justifyContent: "center",
                 position: "relative",
-                top: "50px", // Moves them down slightly
+                top: "50px"
               }}
             >
               <GPIndicator name="Coral" value={hasCoral} />
