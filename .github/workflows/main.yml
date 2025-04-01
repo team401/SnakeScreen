@@ -1,7 +1,7 @@
 name: Publish Release
 
 env:
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Electron App and publish  #Builds the electron app then publishes to github releases
         env:
-            GH_TOKEN: ${{ secrets.GH_TOKEN }}
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run publish
 
 
