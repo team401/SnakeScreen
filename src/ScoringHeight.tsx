@@ -21,6 +21,7 @@ type ScoreHeightProps = {
   algaeScoreHeight: string;
   setAlgaeIntakeHeight: Function;
   algaeIntakeHeight: string;
+  flipSides: boolean; // New prop to toggle layout
 };
 
 export default function ScoringHeight(props: ScoreHeightProps) {
@@ -109,57 +110,111 @@ export default function ScoringHeight(props: ScoreHeightProps) {
         height: 500,
       }}
     >
-      <Stack direction="row">
-        <Stack direction="column" spacing={3}>
-          <ToggleButtonGroup
-            orientation="vertical"
-            value={props.algaeScoreHeight}
-            exclusive
-            onChange={handleAlgaeScoreChange}
-          >
-            {heights
-              .filter((entry) => entry.piece == "algae")
-              .map((entry) => (
+      {props.flipSides ? (
+        <Stack direction="row" justifyContent="center">
+          <Stack direction="column" spacing={3} alignItems="center">
+            <ToggleButtonGroup
+              orientation="vertical"
+              value={props.algaeScoreHeight}
+              exclusive
+              onChange={handleAlgaeScoreChange}
+            >
+              {heights
+                .filter((entry) => entry.piece === "algae")
+                .map((entry) => (
+                  <AlgaeButton key={entry.value} value={entry.value}>
+                    <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
+                      {entry.label}
+                    </Typography>
+                  </AlgaeButton>
+                ))}
+            </ToggleButtonGroup>
+            <ToggleButtonGroup
+              orientation="vertical"
+              value={props.algaeIntakeHeight}
+              exclusive
+              onChange={handleAlgaeIntakeChange}
+            >
+              {intakeHeights.map((entry) => (
                 <AlgaeButton key={entry.value} value={entry.value}>
                   <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
                     {entry.label}
                   </Typography>
                 </AlgaeButton>
               ))}
-          </ToggleButtonGroup>
+            </ToggleButtonGroup>
+          </Stack>
           <ToggleButtonGroup
             orientation="vertical"
-            value={props.algaeIntakeHeight}
+            value={props.coralHeight}
+            sx={{ ml: 4 }}
             exclusive
-            onChange={handleAlgaeIntakeChange}
+            onChange={handleCoralChange}
           >
-            {intakeHeights.map((entry) => (
-              <AlgaeButton key={entry.value} value={entry.value}>
-                <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
-                  {entry.label}
-                </Typography>
-              </AlgaeButton>
-            ))}
+            {heights
+              .filter((entry) => entry.piece === "coral")
+              .map((entry) => (
+                <CoralButton key={entry.value} value={entry.value}>
+                  <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
+                    {entry.label}
+                  </Typography>
+                </CoralButton>
+              ))}
           </ToggleButtonGroup>
         </Stack>
-        <ToggleButtonGroup
-          orientation="vertical"
-          value={props.coralHeight}
-          sx={{ ml: 4 }}
-          exclusive
-          onChange={handleCoralChange}
-        >
-          {heights
-            .filter((entry) => entry.piece == "coral")
-            .map((entry) => (
-              <CoralButton key={entry.value} value={entry.value}>
-                <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
-                  {entry.label}
-                </Typography>
-              </CoralButton>
-            ))}
-        </ToggleButtonGroup>
-      </Stack>
+      ) : (
+        <Stack direction="row" justifyContent="center">
+          <Stack direction="row" spacing={3} alignItems="center">
+            <ToggleButtonGroup
+              orientation="vertical"
+              value={props.algaeScoreHeight}
+              exclusive
+              onChange={handleAlgaeScoreChange}
+            >
+              {heights
+                .filter((entry) => entry.piece === "algae")
+                .map((entry) => (
+                  <AlgaeButton key={entry.value} value={entry.value}>
+                    <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
+                      {entry.label}
+                    </Typography>
+                  </AlgaeButton>
+                ))}
+            </ToggleButtonGroup>
+            <ToggleButtonGroup
+              orientation="vertical"
+              value={props.algaeIntakeHeight}
+              exclusive
+              onChange={handleAlgaeIntakeChange}
+            >
+              {intakeHeights.map((entry) => (
+                <AlgaeButton key={entry.value} value={entry.value}>
+                  <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
+                    {entry.label}
+                  </Typography>
+                </AlgaeButton>
+              ))}
+            </ToggleButtonGroup>
+          </Stack>
+          <ToggleButtonGroup
+            orientation="vertical"
+            value={props.coralHeight}
+            sx={{ ml: 4 }}
+            exclusive
+            onChange={handleCoralChange}
+          >
+            {heights
+              .filter((entry) => entry.piece === "coral")
+              .map((entry) => (
+                <CoralButton key={entry.value} value={entry.value}>
+                  <Typography fontSize={80} sx={{ my: 2, textWrap: "nowrap" }}>
+                    {entry.label}
+                  </Typography>
+                </CoralButton>
+              ))}
+          </ToggleButtonGroup>
+        </Stack>
+      )}
     </Box>
   );
 }

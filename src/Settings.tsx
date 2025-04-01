@@ -128,7 +128,7 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, 
             Display Settings
           </Typography>
 
-          <FormControlLabel control={<Switch checked={flipSides} onChange={(e) => setFlipSides(e.target.checked)} />} label="Flip Sides" />
+          <FormControlLabel control={<Switch checked={flipSides} onChange={(e) => setFlipSides(e.target.checked)} />} label="sigmalucinda locked in mode" />
 
           <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
             <Button

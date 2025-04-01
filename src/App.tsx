@@ -9,7 +9,6 @@ import { useEntry, useNt4 } from "@frc-web-components/react";
 import Autonomy from "./Autonomy";
 import GPIndicator from "./GPIndicator";
 import ConnectionStatus from "./ConnectionStatus";
-import StationToggle from "./stationToggle";
 import Settings from "./Settings";
 
 interface IPprops {
@@ -18,7 +17,6 @@ interface IPprops {
 }
 
 export default function App({ IP, setIP }: IPprops) {
-  //const [intakeStation, setIntakeStation] = useEntry("/stationTarget", "left");
   const [coralHeight, setCoralHeight] = useEntry("/coralHeight", "level4");
   const [algaeScoreHeight, setAlgaeScoreHeight] = useEntry("/algaeScoreHeight", "level4");
   const [algaeIntakeHeight, setAlgaeIntakeHeight] = useEntry("/algaeIntakeHeight", "level3");
@@ -49,7 +47,6 @@ export default function App({ IP, setIP }: IPprops) {
 
   return (
     <Box sx={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
-      {}
       {backgroundMode === "video" && (
         <Box
           sx={{
@@ -65,8 +62,7 @@ export default function App({ IP, setIP }: IPprops) {
           }}
         />
       )}
-
-      {}
+ {}
       {backgroundMode === "video" && (
         <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "flex", zIndex: -1 }}>
           {}
@@ -120,65 +116,59 @@ export default function App({ IP, setIP }: IPprops) {
         <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "white", zIndex: -1 }} />
       )}
 
-      {}
       <Container sx={{ position: "relative", pl: 1, zIndex: 1 }} maxWidth={false} disableGutters>
         <Box sx={{ m: 0, p: 0, zIndex: 1 }}>
           <Typography variant="h3" component="h1" sx={{ m: 0, pb: 6 }}>
             <Box sx={{ fontSize: 60, textAlign: "center", m: 0, pb: 0 }}>SnakeScreen</Box>
           </Typography>
           <Stack direction={"row"} spacing={20} sx={{ my: 0, p: 0, justifyContent: "center" }}>
-            {flipSides ? (
-              <>
-                <Stack direction={"column"} spacing={7}>
-                  <GPIndicator name="Coral" value={hasCoral} />
-                  <GPIndicator name="Algae" value={hasAlgae} />
-                  <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
-                </Stack>
-                <Stack direction={"column"} spacing={20}>
-                 {/* <StationToggle station={intakeStation} setStation={setIntakeStation} /> */}
-                  <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
-                </Stack>
-                <Stack direction={"column"} spacing={7}>
-                  <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
-                  <ScoringHeight
-                    coralHeight={coralHeight}
-                    setCoralHeight={setCoralHeight}
-                    algaeScoreHeight={algaeScoreHeight}
-                    setAlgaeScoreHeight={setAlgaeScoreHeight}
-                    algaeIntakeHeight={algaeIntakeHeight}
-                    setAlgaeIntakeHeight={setAlgaeIntakeHeight}
-                  />
-                </Stack>
-              </>
-            ) : (
-              <>
-                <Stack direction={"column"} spacing={7}>
-                  <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
-                  <ScoringHeight
-                    coralHeight={coralHeight}
-                    setCoralHeight={setCoralHeight}
-                    algaeScoreHeight={algaeScoreHeight}
-                    setAlgaeScoreHeight={setAlgaeScoreHeight}
-                    algaeIntakeHeight={algaeIntakeHeight}
-                    setAlgaeIntakeHeight={setAlgaeIntakeHeight}
-                  />
-                </Stack>
-                <Stack direction={"column"} spacing={20}>
-                  {/* <StationToggle station={intakeStation} setStation={setIntakeStation} /> */}
-                  <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
-                </Stack>
-                <Stack direction={"column"} spacing={7}>
-                  <GPIndicator name="Coral" value={hasCoral} />
-                  <GPIndicator name="Algae" value={hasAlgae} />
-                  <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
-                </Stack>
-              </>
-            )}
+            {/* Adjusted positioning for ScoringHeight */}
+            <Stack
+              direction={"column"}
+              spacing={7}
+              sx={{
+                alignItems: "flex-start",
+                justifyContent: "center",
+                position: "relative",
+                top: "50px", // Moves it further down
+                left: "200px", // Moves it further left
+              }}
+            >
+              <GPToggle gamepiece={gamepiece} setGP={setGamepiece} />
+              <ScoringHeight
+                coralHeight={coralHeight}
+                setCoralHeight={setCoralHeight}
+                algaeScoreHeight={algaeScoreHeight}
+                setAlgaeScoreHeight={setAlgaeScoreHeight}
+                algaeIntakeHeight={algaeIntakeHeight}
+                setAlgaeIntakeHeight={setAlgaeIntakeHeight}
+                flipSides={flipSides} 
+              />
+            </Stack>
+
+            <Stack direction={"column"} spacing={20}>
+              <Autonomy autonomy={autonomy} setAutonomy={setAutonomy} />
+            </Stack>
+
+            {/* Centered ConnectionStatus and GPIndicator vertically */}
+            <Stack
+              direction={"column"}
+              spacing={7}
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                top: "50px", // Moves them down slightly
+              }}
+            >
+              <GPIndicator name="Coral" value={hasCoral} />
+              <GPIndicator name="Algae" value={hasAlgae} />
+              <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
+            </Stack>
           </Stack>
         </Box>
       </Container>
 
-      {}
       <Settings IP={IP} setIP={setIP} setBackgroundMode={setBackgroundMode} setFullscreen={setFullscreen} flipSides={flipSides} setFlipSides={setFlipSides} />
     </Box>
   );
