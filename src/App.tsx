@@ -55,7 +55,7 @@ export default function App({ IP, setIP }: IPprops) {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundImage: 'url("/background.png")',
+            backgroundImage: 'url("./background.png")',
             backgroundSize: "150px 300px",
             backgroundRepeat: "repeat",
             zIndex: -2, 
@@ -82,7 +82,7 @@ export default function App({ IP, setIP }: IPprops) {
                 objectFit: "cover",
               }}
             >
-              <source src="/background1.mp4" type="video/mp4" />
+              <source src="./background1.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </Box>
@@ -104,7 +104,7 @@ export default function App({ IP, setIP }: IPprops) {
                 objectFit: "cover",
               }}
             >
-              <source src="/background2.mp4" type="video/mp4" />
+              <source src="./background2.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </Box>
