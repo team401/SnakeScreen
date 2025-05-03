@@ -13,7 +13,7 @@ interface SettingsProps {
   setFlipSides: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, flipSides, setFlipSides,}: SettingsProps) {
+export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, flipSides, setFlipSides}: SettingsProps) {
   const [open, setOpen] = React.useState(false);
   const [speedLevel, setSpeedLevel] = useEntry("/speedLevel", "pro"); 
 
@@ -114,22 +114,13 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, 
           <Box sx={{ display: "flex", justifyContent: "space-around", gap: 0.5, mt: 6 }}>
             <Button
               onClick={() => setBackgroundMode("static")}
-              sx={{
-                scale: 1.4,
-                bgcolor: "lightgray",
-                paddingLeft: "10px",
-                "&:hover": { bgcolor: "gray" },
-              }}
+              sx={{ scale: 1.5, bgcolor: "lightgray", "&:hover": { bgcolor: "gray" } }}
             >
               Locked In Mode
             </Button>
             <Button
               onClick={() => setBackgroundMode("video")}
-              sx={{
-                scale: 1.4,
-                bgcolor: "lightblue",
-                "&:hover": { bgcolor: "blue" },
-              }}
+              sx={{ scale: 1.5, bgcolor: "lightblue", "&:hover": { bgcolor: "blue" } }}
             >
               Geeked Mode
             </Button>
