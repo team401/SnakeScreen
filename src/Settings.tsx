@@ -11,11 +11,12 @@ interface SettingsProps {
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
   flipSides: boolean;
   setFlipSides: React.Dispatch<React.SetStateAction<boolean>>;
+  speedLevel: string;
+  setSpeedLevel: (value: string) => void;
 }
 
-export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, flipSides, setFlipSides}: SettingsProps) {
+export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, flipSides, setFlipSides, setSpeedLevel, speedLevel}: SettingsProps) {
   const [open, setOpen] = React.useState(false);
-  const [speedLevel, setSpeedLevel] = useEntry("/speedLevel", "pro"); 
 
   const handleFullscreenToggle = () => {
     if (document.fullscreenElement) {
@@ -33,7 +34,6 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, 
     }
   };
 
-  //Watch for IP change,then reload
   React.useEffect(() => {
     if (IP !== localStorage.getItem("robotIP")) {
       localStorage.setItem("robotIP", IP);
@@ -144,11 +144,11 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, 
               Toggle Fullscreen
             </Button>
           </Box>
-           
+
           <Typography variant="h6" sx={{ mt: 3, mb: 1, textAlign: "left" }}>
             Speed Settings
           </Typography>
-              
+
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4, gap: 2 }}>
             <Button
               variant="contained"
