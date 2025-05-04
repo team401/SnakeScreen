@@ -29,6 +29,8 @@ export default function App({ IP, setIP }: IPprops) {
   const [backgroundMode, setBackgroundMode] = React.useState<"static" | "video">("static");
   const [isFullscreen, setFullscreen] = React.useState(false);
   const [flipSides, setFlipSides] = React.useState(true); 
+  const [speedLevel, setSpeedLevel] = useEntry("/speedLevel", "pro");
+
 
   const nt4 = useNt4();
 
@@ -169,7 +171,7 @@ export default function App({ IP, setIP }: IPprops) {
         </Box>
       </Container>
 
-      <Settings IP={IP} setIP={setIP} setBackgroundMode={setBackgroundMode} setFullscreen={setFullscreen} flipSides={flipSides} setFlipSides={setFlipSides} />
+      <Settings IP={IP} setIP={setIP} setBackgroundMode={setBackgroundMode} setFullscreen={setFullscreen} flipSides={flipSides} setFlipSides={setFlipSides} speedLevel={speedLevel} setSpeedLevel={setSpeedLevel}  />
     </Box>
   );
 }
