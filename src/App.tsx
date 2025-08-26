@@ -165,7 +165,10 @@ export default function App({ IP, setIP }: IPprops) {
             >
               <GPIndicator name="Coral" value={hasCoral} />
               <GPIndicator name="Algae" value={hasAlgae} />
-              <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
+              <Stack direction="column" spacing={0.5} sx={{ alignItems: "center" }}>
+                <ConnectionStatus isConnected={isConnected} isConnecting={isConnecting} />
+                <Typography variant="caption">IP: {IP}</Typography>
+              </Stack>
             </Stack>
           </Stack>
         </Box>

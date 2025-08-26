@@ -17,6 +17,11 @@ interface SettingsProps {
 
 export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, flipSides, setFlipSides, setSpeedLevel, speedLevel}: SettingsProps) {
   const [open, setOpen] = React.useState(false);
+  const [localIP, setLocalIP] = React.useState(IP);
+
+  React.useEffect(() => {
+    setLocalIP(IP);
+  }, [IP]);
 
   const handleFullscreenToggle = () => {
     if (document.fullscreenElement) {
@@ -94,8 +99,9 @@ export default function Settings({ IP, setIP, setBackgroundMode, setFullscreen, 
             label="IP Address"
             variant="outlined"
             fullWidth
-            value={IP}
-            onChange={(changeIP) => setIP(changeIP.target.value)}
+            value={localIP}
+            onChange={(e) => setLocalIP(e.target.value)}
+            onBlur={() => setIP(localIP)}
             sx={{ mb: 2, mt: 2, scale: 1.1 }}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
